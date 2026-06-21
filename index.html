@@ -6,170 +6,362 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Reset."/>
-<meta name="theme-color" content="#0a0a0a"/>
+<meta name="theme-color" content="#080808"/>
 <link rel="manifest" href="/manifest.json"/>
 <link rel="apple-touch-icon" href="/icon-192.png"/>
 <title>Reset.</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
---bg:#0a0a0a;--s1:#141414;--s2:#1c1c1c;--s3:#242424;
---b1:#2a2a2a;--b2:#363636;
---tx:#f0f0f0;--t2:#aaa;--t3:#666;
---green:#22c97a;--gd:#0a2318;
---amber:#f5a623;--ad:#2d1f08;
---blue:#4a9eff;--bd:#0a1e35;
---red:#ff5555;--rd:#2a0a0a;
---purple:#a78bfa;--pd:#1a1230;
---safe-top:env(safe-area-inset-top);
---safe-bot:env(safe-area-inset-bottom);
+--bg:#080808;--s1:#111;--s2:#191919;--s3:#222;--s4:#2a2a2a;
+--b1:#252525;--b2:#333;--b3:#444;
+--tx:#f2f2f2;--t2:#999;--t3:#555;--t4:#333;
+--green:#00e676;--gd:#001a0d;--gs:#00c864;
+--amber:#ffab00;--ad:#1a1100;--as:#e69900;
+--blue:#448aff;--bd:#001433;--bs:#2979ff;
+--purple:#b388ff;--pd:#120a2a;
+--red:#ff5252;--rd:#1a0505;
+--pink:#f48fb1;
+--teal:#64ffda;--ted:#002a1f;
+--safe-t:env(safe-area-inset-top);
+--safe-b:env(safe-area-inset-bottom);
+--r-sm:10px;--r-md:16px;--r-lg:20px;--r-xl:24px;
 }
-body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;max-width:430px;margin:0 auto;padding:calc(14px + var(--safe-top)) 13px calc(90px + var(--safe-bot));font-size:15px;min-height:100vh;}
+html,body{height:100%;background:var(--bg);}
+body{color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text',sans-serif;max-width:430px;margin:0 auto;padding:calc(12px + var(--safe-t)) 14px calc(80px + var(--safe-b));overflow-x:hidden;}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
-.hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;}
-.hdr-title{font-size:28px;font-weight:700;letter-spacing:-1px;}
-.hdr-sub{font-size:11px;color:var(--t3);margin-top:3px;}
-.streak-pill{background:var(--ad);border:1px solid var(--amber);border-radius:13px;padding:7px 13px;text-align:center;}
-.streak-n{font-size:20px;font-weight:700;color:var(--amber);line-height:1;}
-.streak-l{font-size:9px;color:var(--amber);opacity:.7;margin-top:1px;text-transform:uppercase;letter-spacing:.05em;}
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(8,8,8,.97);border-top:.5px solid var(--b1);display:flex;padding:6px 0 calc(10px + var(--safe-bot));z-index:100;backdrop-filter:blur(10px);}
-.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:var(--t3);cursor:pointer;padding:4px 0;font-size:9px;text-transform:uppercase;letter-spacing:.04em;}
+
+/* NAV */
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(6,6,6,.96);border-top:.5px solid var(--b1);display:flex;padding:8px 0 calc(10px + var(--safe-b));z-index:200;backdrop-filter:blur(20px);}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:var(--t3);cursor:pointer;padding:2px 0;font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;transition:color .2s;}
 .nb.active{color:var(--green);}
-.nb i{font-size:19px;}
-.view{display:none;}.view.active{display:block;}
-.sec{font-size:10px;font-weight:600;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin:18px 0 8px;}
+.nb i{font-size:20px;}
+
+/* VIEWS */
+.view{display:none;animation:fadeIn .2s ease;}
+.view.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* SECTION LABELS */
+.sec{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.12em;text-transform:uppercase;margin:22px 0 10px;display:flex;align-items:center;justify-content:space-between;}
 .sec:first-of-type{margin-top:0;}
-.card{background:var(--s1);border-radius:16px;overflow:hidden;margin-bottom:10px;}
-.cp{padding:15px;}
-.score-row{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
-.score-big{font-size:42px;font-weight:700;letter-spacing:-1.5px;line-height:1;}
-.score-lbl{font-size:12px;color:var(--t2);margin-top:2px;}
-.int-box{background:var(--s1);border-radius:14px;padding:13px 15px;margin-bottom:10px;border-left:3px solid var(--purple);}
-.int-lbl{font-size:10px;color:var(--purple);margin-bottom:5px;text-transform:uppercase;letter-spacing:.08em;}
-.int-text{font-size:13px;line-height:1.6;color:var(--tx);font-style:italic;}
-.hr{display:flex;align-items:center;padding:12px 15px;border-bottom:.5px solid var(--b1);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .1s;}
-.hr:last-child{border-bottom:none;}
-.hr:active{background:var(--s2);}
-.hi{flex:1;}
-.hn{font-size:14px;}
-.hs{font-size:11px;color:var(--t3);margin-top:1px;}
-.hc{width:25px;height:25px;border-radius:50%;border:2px solid var(--b2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
-.hc.done{background:var(--green);border-color:var(--green);}
-.chk{display:none;}
-.hc.done .chk{display:block;}
-.hdel{background:none;border:none;color:var(--t3);font-size:20px;cursor:pointer;padding:0 0 0 8px;line-height:1;flex-shrink:0;}
-.coffee-row{display:flex;align-items:center;gap:12px;background:var(--s1);border-radius:14px;padding:13px 15px;margin-bottom:10px;}
-.cups{display:flex;gap:5px;flex:1;flex-wrap:wrap;}
-.cup{font-size:20px;opacity:.25;transition:opacity .15s;}
-.cup.on{opacity:1;}
-.c-btn{background:var(--ad);border:1px solid var(--amber);color:var(--amber);border-radius:9px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;}
-.mg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
-.mc{background:var(--s1);border-radius:13px;padding:13px;}
-.mv{font-size:21px;font-weight:700;line-height:1;}
-.ml{font-size:11px;color:var(--t3);margin-top:3px;}
-.bc{display:flex;align-items:flex-end;gap:4px;height:80px;margin:6px 0 3px;}
-.bcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.sec-action{font-size:11px;font-weight:600;color:var(--green);text-transform:none;letter-spacing:0;cursor:pointer;}
+
+/* CARDS */
+.card{background:var(--s1);border-radius:var(--r-lg);overflow:hidden;margin-bottom:10px;}
+.card-border{border:.5px solid var(--b1);}
+.cp{padding:16px;}
+.card-row{display:flex;align-items:center;padding:14px 16px;border-bottom:.5px solid var(--b1);}
+.card-row:last-child{border-bottom:none;}
+
+/* DASHBOARD */
+.dash-greeting{font-size:26px;font-weight:700;letter-spacing:-.5px;margin-bottom:2px;}
+.dash-sub{font-size:13px;color:var(--t2);}
+.dash-hero{background:linear-gradient(135deg,#001a0d 0%,#0a1a00 50%,#001433 100%);border-radius:var(--r-xl);padding:20px;margin-bottom:10px;border:.5px solid #1a3a1a;position:relative;overflow:hidden;}
+.dash-hero::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(0,230,118,.08) 0%,transparent 70%);pointer-events:none;}
+.dash-streak-num{font-size:52px;font-weight:800;color:var(--green);letter-spacing:-2px;line-height:1;}
+.dash-streak-lbl{font-size:12px;color:var(--green);opacity:.7;text-transform:uppercase;letter-spacing:.1em;margin-top:2px;}
+.dash-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:16px;}
+.dash-metric{background:rgba(255,255,255,.04);border-radius:var(--r-sm);padding:10px;}
+.dash-metric-val{font-size:16px;font-weight:700;line-height:1;}
+.dash-metric-lbl{font-size:9px;color:var(--t2);margin-top:3px;text-transform:uppercase;letter-spacing:.06em;}
+.net-worth-card{background:var(--s1);border-radius:var(--r-lg);padding:16px;margin-bottom:10px;border:.5px solid var(--b1);}
+.nw-label{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.nw-value{font-size:36px;font-weight:800;letter-spacing:-1px;color:var(--green);}
+.nw-breakdown{display:flex;gap:16px;margin-top:10px;}
+.nw-item{flex:1;}
+.nw-item-val{font-size:15px;font-weight:600;}
+.nw-item-lbl{font-size:10px;color:var(--t3);margin-top:1px;}
+.coach-card{background:linear-gradient(135deg,var(--pd) 0%,#0a0818 100%);border-radius:var(--r-lg);padding:16px;margin-bottom:10px;border:.5px solid #2a1a4a;}
+.coach-label{font-size:10px;color:var(--purple);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.coach-text{font-size:14px;line-height:1.7;color:var(--tx);}
+.mood-snapshot{display:flex;gap:8px;}
+.mood-pill{flex:1;background:var(--s2);border-radius:var(--r-sm);padding:10px 8px;text-align:center;}
+.mood-pill-emoji{font-size:20px;}
+.mood-pill-lbl{font-size:9px;color:var(--t3);margin-top:3px;text-transform:uppercase;letter-spacing:.06em;}
+.mood-pill-val{font-size:13px;font-weight:600;color:var(--tx);margin-top:2px;}
+
+/* TODAY */
+.intention-card{background:var(--s1);border-radius:var(--r-lg);padding:16px;margin-bottom:10px;border-left:3px solid var(--purple);}
+.int-label{font-size:10px;color:var(--purple);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;}
+.int-text{font-size:14px;line-height:1.7;font-style:italic;color:var(--tx);}
+.score-row{display:flex;align-items:center;gap:16px;margin-bottom:10px;background:var(--s1);border-radius:var(--r-lg);padding:16px;}
+.score-num{font-size:44px;font-weight:800;letter-spacing:-2px;line-height:1;}
+.score-sub{font-size:12px;color:var(--t2);margin-top:3px;}
+.habit-group{background:var(--s1);border-radius:var(--r-lg);overflow:hidden;margin-bottom:10px;}
+.habit-group-hdr{padding:12px 16px 10px;border-bottom:.5px solid var(--b1);display:flex;align-items:center;justify-content:space-between;}
+.habit-group-title{font-size:11px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.08em;}
+.habit-group-streak{font-size:11px;color:var(--t3);}
+.habit-row{display:flex;align-items:center;padding:13px 16px;border-bottom:.5px solid var(--b1);cursor:pointer;transition:background .1s;}
+.habit-row:last-child{border-bottom:none;}
+.habit-row:active{background:var(--s2);}
+.habit-info{flex:1;}
+.habit-name{font-size:15px;font-weight:400;}
+.habit-sub{font-size:11px;color:var(--t3);margin-top:2px;}
+.habit-streak{font-size:11px;color:var(--amber);margin-top:2px;font-weight:500;}
+.habit-check{width:26px;height:26px;border-radius:50%;border:2px solid var(--b2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
+.habit-check.done{background:var(--green);border-color:var(--green);}
+.chk-svg{display:none;}
+.habit-check.done .chk-svg{display:block;}
+.habit-del{background:none;border:none;color:var(--t3);font-size:22px;cursor:pointer;padding:0 2px 0 10px;line-height:1;}
+.coffee-quick{display:flex;align-items:center;gap:10px;background:var(--s1);border-radius:var(--r-lg);padding:14px 16px;margin-bottom:10px;}
+.coffee-cups-row{display:flex;gap:4px;flex:1;flex-wrap:wrap;}
+.coffee-cup{font-size:18px;opacity:.2;transition:opacity .15s;}
+.coffee-cup.on{opacity:1;}
+.c-add-btn{background:var(--ad);border:1px solid var(--amber);color:var(--amber);border-radius:8px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;}
+.add-habit-card{background:var(--s1);border-radius:var(--r-lg);padding:14px;margin-bottom:10px;}
+.input-row{display:flex;gap:7px;margin-bottom:8px;}
+.txt-input{flex:1;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r-sm);padding:10px 12px;color:var(--tx);font-size:14px;min-width:0;}
+.txt-input:focus{outline:none;border-color:var(--green);}
+.sel-input{background:var(--s2);border:1px solid var(--b2);border-radius:var(--r-sm);padding:10px 8px;color:var(--tx);font-size:12px;}
+.add-btn{background:var(--green);color:#000;border:none;border-radius:var(--r-sm);padding:10px 14px;font-size:14px;font-weight:700;cursor:pointer;}
+.template-chips{display:flex;gap:5px;flex-wrap:wrap;}
+.chip{background:var(--s2);border:1px solid var(--b1);border-radius:7px;color:var(--t2);padding:5px 10px;font-size:11px;cursor:pointer;white-space:nowrap;}
+.lock-btn{width:100%;padding:16px;background:var(--green);color:#000;font-size:16px;font-weight:700;border:none;border-radius:var(--r-lg);cursor:pointer;margin-top:18px;letter-spacing:-.3px;transition:all .2s;}
+.lock-btn:active{transform:scale(.98);}
+
+/* FINANCE */
+.finance-hero{background:var(--s1);border-radius:var(--r-xl);padding:18px;margin-bottom:10px;border:.5px solid var(--b1);}
+.fin-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0;}
+.fin-card{background:var(--s2);border-radius:var(--r-md);padding:13px;}
+.fin-val{font-size:20px;font-weight:700;line-height:1;}
+.fin-lbl{font-size:10px;color:var(--t3);margin-top:3px;text-transform:uppercase;letter-spacing:.06em;}
+.savings-card{background:var(--s1);border-radius:var(--r-lg);padding:16px;margin-bottom:10px;border:.5px solid var(--b1);}
+.sav-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;}
+.sav-num{font-size:32px;font-weight:800;color:var(--green);letter-spacing:-1px;}
+.sav-goal{font-size:12px;color:var(--t3);}
+.prog-track{background:var(--s2);border-radius:99px;height:4px;margin-bottom:8px;overflow:hidden;}
+.prog-fill{height:4px;border-radius:99px;background:linear-gradient(90deg,var(--green),var(--teal));transition:width .6s;}
+.prog-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--t3);}
+.debt-card{background:var(--s1);border-radius:var(--r-lg);padding:16px;margin-bottom:10px;border:1px solid rgba(255,82,82,.3);}
+.debt-num{font-size:30px;font-weight:800;color:var(--red);letter-spacing:-1px;}
+.line-chart-wrap{background:var(--s1);border-radius:var(--r-lg);padding:16px;margin-bottom:10px;border:.5px solid var(--b1);}
+.chart-title{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;}
+.line-chart-svg{width:100%;height:140px;}
+.expense-log{background:var(--s1);border-radius:var(--r-lg);overflow:hidden;margin-bottom:10px;}
+.exp-row{display:flex;align-items:center;padding:12px 16px;border-bottom:.5px solid var(--b1);}
+.exp-row:last-child{border-bottom:none;}
+.exp-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-right:12px;}
+.exp-info{flex:1;}
+.exp-name{font-size:14px;font-weight:400;}
+.exp-cat{font-size:11px;color:var(--t3);margin-top:1px;}
+.exp-amt{font-size:15px;font-weight:600;color:var(--red);}
+.exp-date{font-size:10px;color:var(--t3);margin-top:1px;text-align:right;}
+.cat-bar{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:.5px solid var(--b1);}
+.cat-bar:last-child{border-bottom:none;}
+.cat-name{font-size:12px;width:110px;flex-shrink:0;}
+.cat-track{flex:1;background:var(--s2);border-radius:99px;height:4px;overflow:hidden;}
+.cat-fill{height:4px;border-radius:99px;transition:width .4s;}
+.cat-amt{font-size:12px;color:var(--t2);width:60px;text-align:right;flex-shrink:0;}
+.add-expense-card{background:var(--s1);border-radius:var(--r-lg);padding:14px;margin-bottom:10px;}
+
+/* PROGRESS */
+.prog-hero{background:var(--s1);border-radius:var(--r-xl);padding:16px;margin-bottom:10px;}
+.heatmap{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin:8px 0;}
+.hmap-cell{aspect-ratio:1;border-radius:3px;background:var(--s2);}
+.hmap-cell.l1{background:rgba(0,230,118,.2);}
+.hmap-cell.l2{background:rgba(0,230,118,.45);}
+.hmap-cell.l3{background:rgba(0,230,118,.7);}
+.hmap-cell.l4{background:var(--green);}
+.habit-streak-list{background:var(--s1);border-radius:var(--r-lg);overflow:hidden;margin-bottom:10px;}
+.hs-row{display:flex;align-items:center;padding:12px 16px;border-bottom:.5px solid var(--b1);}
+.hs-row:last-child{border-bottom:none;}
+.hs-name{flex:1;font-size:14px;}
+.hs-streak{font-size:13px;font-weight:600;color:var(--amber);}
+.hs-fire{font-size:12px;margin-left:3px;}
+.bar-chart-wrap{background:var(--s1);border-radius:var(--r-lg);padding:16px;margin-bottom:10px;}
+.bars{display:flex;align-items:flex-end;gap:5px;height:80px;margin:8px 0 4px;}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
 .bar{width:100%;border-radius:4px 4px 0 0;min-height:3px;transition:height .4s;}
-.blbl{font-size:9px;color:var(--t3);}
-.sdots{display:flex;gap:5px;margin:6px 0 8px;}
-.sd{flex:1;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--t3);}
-.sd.hit{background:var(--gd);border:1px solid var(--green);color:var(--green);}
-.sd.miss{background:var(--s2);}
-.sv-card{background:var(--s1);border-radius:16px;padding:15px;margin-bottom:10px;}
-.sv-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
-.sv-num{font-size:28px;font-weight:700;color:var(--green);}
-.sv-goal{font-size:12px;color:var(--t3);}
-.pb{background:var(--s2);border-radius:99px;height:5px;margin-bottom:7px;}
-.pf{border-radius:99px;height:5px;background:var(--green);transition:width .5s;}
-.pm{display:flex;justify-content:space-between;font-size:11px;color:var(--t3);}
-.ms{display:flex;gap:13px;align-items:flex-start;padding:12px 0;border-bottom:.5px solid var(--b1);}
-.ms:last-child{border-bottom:none;}
-.msd{width:11px;height:11px;border-radius:50%;flex-shrink:0;margin-top:3px;}
-.msd.done{background:var(--green);}
-.msd.now{background:var(--amber);box-shadow:0 0 7px var(--amber);}
-.msd.future{background:var(--s3);}
-.ms-t{font-size:14px;font-weight:500;}
-.ms-d{font-size:11px;color:var(--t3);margin-top:2px;}
-.ms-b{display:inline-block;font-size:10px;padding:2px 7px;border-radius:5px;margin-top:3px;font-weight:500;}
-.ms-b.done{background:var(--gd);color:var(--green);}
-.ms-b.now{background:var(--ad);color:var(--amber);}
-.ms-b.future{background:var(--s2);color:var(--t3);}
-.jcard{background:var(--s1);border-radius:16px;padding:15px;margin-bottom:10px;}
-textarea{width:100%;background:none;border:none;color:var(--tx);font-size:14px;font-family:inherit;resize:none;outline:none;line-height:1.7;}
+.bar-lbl{font-size:9px;color:var(--t3);}
+.trend-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.trend-card{background:var(--s1);border-radius:var(--r-lg);padding:14px;}
+.trend-val{font-size:22px;font-weight:700;line-height:1;}
+.trend-lbl{font-size:10px;color:var(--t3);margin-top:3px;text-transform:uppercase;letter-spacing:.06em;}
+.trend-delta{font-size:11px;margin-top:4px;}
+.w-log-row{display:flex;gap:8px;margin-bottom:10px;}
+.w-log-input{flex:1;background:var(--s1);border:1px solid var(--b2);border-radius:var(--r-md);padding:12px 14px;color:var(--tx);font-size:15px;font-weight:600;}
+.w-log-btn{background:var(--bd);border:1px solid var(--blue);color:var(--blue);border-radius:var(--r-md);padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;}
+
+/* GOALS */
+.goals-hero{background:linear-gradient(135deg,#0a1a00 0%,#001a0d 100%);border-radius:var(--r-xl);padding:18px;margin-bottom:10px;border:.5px solid #1a3a0a;}
+.goals-title{font-size:22px;font-weight:700;letter-spacing:-.5px;}
+.goals-sub{font-size:13px;color:var(--t2);margin-top:4px;}
+.ms-item{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:.5px solid var(--b1);}
+.ms-item:last-child{border-bottom:none;}
+.ms-dot-wrap{display:flex;flex-direction:column;align-items:center;gap:0;}
+.ms-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.ms-dot.done{background:var(--green);}
+.ms-dot.now{background:var(--amber);box-shadow:0 0 8px var(--amber);}
+.ms-dot.future{background:var(--s4);}
+.ms-content{flex:1;}
+.ms-title{font-size:15px;font-weight:500;}
+.ms-date{font-size:11px;color:var(--t3);margin-top:2px;}
+.ms-countdown{font-size:12px;font-weight:600;margin-top:4px;}
+.ms-progress{margin-top:8px;}
+.ms-prog-bar{background:var(--s2);border-radius:99px;height:3px;margin-top:4px;overflow:hidden;}
+.ms-prog-fill{height:3px;border-radius:99px;background:var(--green);transition:width .4s;}
+.ms-badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:5px;font-weight:600;}
+.ms-badge.done{background:var(--gd);color:var(--green);}
+.ms-badge.now{background:var(--ad);color:var(--amber);}
+.ms-badge.future{background:var(--s2);color:var(--t3);}
+.ms-edit-wrap{background:var(--s1);border-radius:var(--r-lg);padding:14px;margin-bottom:8px;}
+
+/* MIND */
+.mind-hero{background:linear-gradient(135deg,var(--pd) 0%,#0a0818 100%);border-radius:var(--r-xl);padding:18px;margin-bottom:10px;border:.5px solid #2a1a4a;}
+.checkin-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.checkin-card{background:var(--s1);border-radius:var(--r-lg);padding:14px;}
+.checkin-label{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
+.emoji-row{display:flex;justify-content:space-between;}
+.emoji-opt{font-size:22px;cursor:pointer;opacity:.3;transition:all .15s;border-radius:8px;padding:4px;}
+.emoji-opt.selected{opacity:1;transform:scale(1.15);}
+.gratitude-card{background:var(--s1);border-radius:var(--r-lg);padding:16px;margin-bottom:10px;}
+.grat-prompt{font-size:13px;color:var(--purple);margin-bottom:10px;line-height:1.5;font-style:italic;}
+.grat-items{display:flex;flex-direction:column;gap:8px;}
+.grat-item{display:flex;align-items:center;gap:10px;}
+.grat-num{font-size:12px;color:var(--t3);width:16px;flex-shrink:0;}
+.grat-input{flex:1;background:var(--s2);border:none;border-bottom:1px solid var(--b2);padding:6px 0;color:var(--tx);font-size:14px;outline:none;}
+.grat-input::placeholder{color:var(--t3);}
+.journal-card{background:var(--s1);border-radius:var(--r-lg);padding:16px;margin-bottom:10px;}
+.journal-prompt{font-size:13px;color:var(--amber);margin-bottom:10px;font-style:italic;line-height:1.5;}
+textarea{width:100%;background:none;border:none;color:var(--tx);font-size:14px;font-family:inherit;resize:none;outline:none;line-height:1.75;}
 textarea::placeholder{color:var(--t3);}
-.mood-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
-.mb{background:var(--s1);border:1px solid var(--b2);border-radius:9px;color:var(--tx);padding:7px 11px;font-size:12px;cursor:pointer;}
-.mb.active{border-color:var(--green);color:var(--green);}
-.wi{display:flex;gap:9px;align-items:flex-start;padding:9px 0;border-bottom:.5px solid var(--b1);}
-.wi:last-child{border-bottom:none;}
-.wd{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:5px;}
-.wt{flex:1;font-size:13px;line-height:1.5;}
-.wdate{font-size:10px;color:var(--t3);flex-shrink:0;margin-top:1px;}
-.set-group{background:var(--s1);border-radius:16px;overflow:hidden;margin-bottom:10px;}
-.set-row{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:.5px solid var(--b1);gap:10px;}
+.win-card{background:var(--s1);border-radius:var(--r-lg);padding:16px;margin-bottom:10px;}
+.win-input-row{display:flex;gap:8px;margin-bottom:12px;}
+.win-item{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:.5px solid var(--b1);}
+.win-item:last-child{border-bottom:none;}
+.win-dot{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:6px;}
+.win-text{flex:1;font-size:13px;line-height:1.5;}
+.win-date{font-size:10px;color:var(--t3);}
+.mood-trend-row{display:flex;gap:4px;margin:8px 0;}
+.mood-day{flex:1;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;background:var(--s2);}
+
+/* SETTINGS */
+.set-group{background:var(--s1);border-radius:var(--r-lg);overflow:hidden;margin-bottom:10px;}
+.set-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:.5px solid var(--b1);gap:10px;}
 .set-row:last-child{border-bottom:none;}
-.set-lbl{font-size:14px;}
+.set-row-col{flex-direction:column;align-items:flex-start;gap:8px;}
+.set-lbl{font-size:14px;font-weight:400;}
 .set-sub{font-size:11px;color:var(--t3);margin-top:2px;}
-.set-input{background:var(--s2);border:1px solid var(--b2);border-radius:9px;padding:6px 10px;color:var(--tx);font-size:14px;text-align:right;width:130px;min-width:0;}
+.set-input{background:var(--s2);border:1px solid var(--b2);border-radius:8px;padding:7px 11px;color:var(--tx);font-size:14px;text-align:right;min-width:0;width:130px;}
 .set-input:focus{outline:none;border-color:var(--green);}
-.set-btn{background:var(--s2);border:1px solid var(--b2);border-radius:9px;padding:6px 12px;color:var(--t2);font-size:12px;cursor:pointer;white-space:nowrap;}
+.set-input.full{width:100%;}
+.set-btn{background:var(--s2);border:1px solid var(--b2);border-radius:8px;padding:7px 13px;color:var(--t2);font-size:12px;cursor:pointer;white-space:nowrap;}
+.set-btn.green{border-color:var(--green);color:var(--green);}
 .set-btn.danger{border-color:var(--red);color:var(--red);}
-.add-form{background:var(--s1);border-radius:16px;padding:15px;margin-bottom:10px;}
-.f-row{display:flex;gap:7px;margin-bottom:8px;}
-.fi{flex:1;background:var(--s2);border:1px solid var(--b2);border-radius:10px;padding:10px 12px;color:var(--tx);font-size:13px;min-width:0;}
-.fi:focus{outline:none;border-color:var(--green);}
-.fs{background:var(--s2);border:1px solid var(--b2);border-radius:10px;padding:10px 8px;color:var(--tx);font-size:12px;}
-.fadd{background:var(--green);color:#000;border:none;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;}
-.tpls{display:flex;gap:5px;flex-wrap:wrap;}
-.tpl{background:var(--s2);border:1px solid var(--b1);border-radius:7px;color:var(--t2);padding:5px 9px;font-size:11px;cursor:pointer;}
-.w-row{display:flex;gap:8px;margin-bottom:10px;}
-.w-input{flex:1;background:var(--s1);border:1px solid var(--b2);border-radius:12px;padding:11px 13px;color:var(--tx);font-size:15px;font-weight:600;}
-.w-btn{background:var(--bd);border:1px solid var(--blue);color:var(--blue);border-radius:12px;padding:11px 15px;font-size:13px;font-weight:600;cursor:pointer;}
-.lbtn{width:100%;padding:15px;background:var(--green);color:#000;font-size:16px;font-weight:700;border:none;border-radius:14px;cursor:pointer;margin-top:18px;letter-spacing:-.2px;}
-.lbtn:active{transform:scale(.98);}
-.tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:5px;background:var(--s2);color:var(--t3);margin-left:6px;cursor:pointer;}
+.cat-edit-row{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:.5px solid var(--b1);}
+.cat-edit-row:last-child{border-bottom:none;}
+.cat-emoji-btn{font-size:20px;background:var(--s2);border:none;border-radius:8px;padding:6px;cursor:pointer;}
+.cat-name-input{flex:1;background:var(--s2);border:1px solid var(--b2);border-radius:8px;padding:7px 10px;color:var(--tx);font-size:13px;}
+.cat-name-input:focus{outline:none;border-color:var(--green);}
 </style>
 </head>
 <body>
-<h1 class="sr-only">Reset — Luke's daily life tracker</h1>
+<h1 class="sr-only">Reset — Personal Life Tracker</h1>
 
-<div class="hdr">
-  <div>
-    <div class="hdr-title">Reset.</div>
-    <div class="hdr-sub" id="appDate"></div>
+<!-- DASHBOARD -->
+<div class="view active" id="view-dash">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;">
+    <div>
+      <div class="dash-greeting" id="dashGreeting">Hey Luke 👋</div>
+      <div class="dash-sub" id="dashDate"></div>
+    </div>
   </div>
-  <div class="streak-pill">
-    <div class="streak-n" id="streakNum">0</div>
-    <div class="streak-l">day streak</div>
+
+  <div class="dash-hero">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+      <div>
+        <div class="dash-streak-num" id="dashStreakNum">0</div>
+        <div class="dash-streak-lbl">day streak 🔥</div>
+      </div>
+      <svg width="64" height="64" viewBox="0 0 64 64" style="transform:rotate(-90deg);">
+        <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(0,230,118,.1)" stroke-width="6"/>
+        <circle id="dashRing" cx="32" cy="32" r="26" fill="none" stroke="#00e676" stroke-width="6" stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="163.4" style="transition:stroke-dashoffset .5s;"/>
+      </svg>
+    </div>
+    <div class="dash-metrics">
+      <div class="dash-metric">
+        <div class="dash-metric-val" id="dashHabits" style="color:var(--green);">0/0</div>
+        <div class="dash-metric-lbl">Today</div>
+      </div>
+      <div class="dash-metric">
+        <div class="dash-metric-val" id="dashSavings" style="color:var(--amber);">$0</div>
+        <div class="dash-metric-lbl">Saved</div>
+      </div>
+      <div class="dash-metric">
+        <div class="dash-metric-val" id="dashDebt" style="color:var(--red);">$0</div>
+        <div class="dash-metric-lbl">Debt</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="net-worth-card">
+    <div class="nw-label">Estimated net worth</div>
+    <div class="nw-value" id="dashNetWorth">$0</div>
+    <div class="nw-breakdown">
+      <div class="nw-item">
+        <div class="nw-item-val" style="color:var(--green);" id="nwEquity">$300k</div>
+        <div class="nw-item-lbl">Property equity</div>
+      </div>
+      <div class="nw-item">
+        <div class="nw-item-val" style="color:var(--blue);" id="nwSavings">$0</div>
+        <div class="nw-item-lbl">Savings</div>
+      </div>
+      <div class="nw-item">
+        <div class="nw-item-val" style="color:var(--red);" id="nwDebt">$0</div>
+        <div class="nw-item-lbl">CC debt</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="coach-card">
+    <div class="coach-label"><i class="ti ti-sparkles"></i> Daily coach</div>
+    <div class="coach-text" id="dashCoach">Loading your message...</div>
+  </div>
+
+  <div class="sec">Mood snapshot</div>
+  <div class="mood-snapshot" id="dashMoodSnap">
+    <div class="mood-pill"><div class="mood-pill-emoji">😶</div><div class="mood-pill-lbl">Mood</div><div class="mood-pill-val" id="snapMood">—</div></div>
+    <div class="mood-pill"><div class="mood-pill-emoji">⚡</div><div class="mood-pill-lbl">Energy</div><div class="mood-pill-val" id="snapEnergy">—</div></div>
+    <div class="mood-pill"><div class="mood-pill-emoji">😰</div><div class="mood-pill-lbl">Anxiety</div><div class="mood-pill-val" id="snapAnxiety">—</div></div>
+    <div class="mood-pill"><div class="mood-pill-emoji">🎯</div><div class="mood-pill-lbl">Focus</div><div class="mood-pill-val" id="snapFocus">—</div></div>
   </div>
 </div>
 
-<div class="view active" id="view-today">
-  <div class="int-box">
-    <div class="int-lbl">Today's intention <span class="tag" onclick="goNav('settings',document.querySelectorAll('.nb')[5])" style="color:var(--purple);">edit</span></div>
-    <div class="int-text" id="intentionDisplay"></div>
+<!-- TODAY -->
+<div class="view" id="view-today">
+  <div class="intention-card">
+    <div class="int-label">Today's intention</div>
+    <div class="int-text" id="intentionText"></div>
   </div>
+
   <div class="score-row">
-    <svg width="70" height="70" viewBox="0 0 70 70" style="transform:rotate(-90deg);flex-shrink:0;" role="img" aria-label="Daily progress ring">
-      <circle cx="35" cy="35" r="28" fill="none" stroke="#1c1c1c" stroke-width="7"/>
-      <circle id="ring" cx="35" cy="35" r="28" fill="none" stroke="#22c97a" stroke-width="7" stroke-linecap="round" stroke-dasharray="175.9" stroke-dashoffset="175.9" style="transition:stroke-dashoffset .4s;"/>
+    <svg width="68" height="68" viewBox="0 0 68 68" style="transform:rotate(-90deg);flex-shrink:0;">
+      <circle cx="34" cy="34" r="28" fill="none" stroke="rgba(0,230,118,.08)" stroke-width="7"/>
+      <circle id="todayRing" cx="34" cy="34" r="28" fill="none" stroke="#00e676" stroke-width="7" stroke-linecap="round" stroke-dasharray="175.9" stroke-dashoffset="175.9" style="transition:stroke-dashoffset .3s;"/>
     </svg>
     <div style="flex:1;">
-      <div class="score-big" id="scoreBig">0</div>
-      <div class="score-lbl">of <span id="totalH">0</span> habits done</div>
+      <div class="score-num"><span id="todayDone">0</span><span style="font-size:22px;font-weight:400;color:var(--t3);">/<span id="todayTotal">0</span></span></div>
+      <div class="score-sub">habits completed today</div>
     </div>
     <div style="text-align:right;">
-      <div class="c-btn" onclick="addCoffee()" style="margin-bottom:5px;">☕ +1</div>
-      <div style="font-size:11px;color:var(--t3);" id="coffeeHdr">0 today</div>
+      <button class="c-add-btn" onclick="addCoffee()">☕ +1</button>
+      <div style="font-size:11px;color:var(--t3);margin-top:5px;" id="coffeeCount">0 coffees</div>
     </div>
   </div>
-  <div id="habitSections"></div>
-  <div class="sec">Add habit</div>
-  <div class="add-form">
-    <div class="f-row">
-      <input class="fi" id="hName" placeholder="Habit name..."/>
-      <select class="fs" id="hCat">
+
+  <div id="habitGroups"></div>
+
+  <div class="coffee-quick">
+    <div class="coffee-cups-row" id="coffeeCups"></div>
+  </div>
+
+  <div class="sec">Add habit <span class="sec-action" onclick="toggleAddHabit()">+ New</span></div>
+  <div class="add-habit-card" id="addHabitCard" style="display:none;">
+    <div class="input-row">
+      <input class="txt-input" id="newHabitName" placeholder="Habit name..."/>
+      <select class="sel-input" id="newHabitCat">
         <option value="💰 Finance">💰</option>
         <option value="💪 Health">💪</option>
         <option value="🛠 Hustle">🛠</option>
@@ -177,227 +369,900 @@ textarea::placeholder{color:var(--t3);}
         <option value="🧠 Mind">🧠</option>
         <option value="🎯 Custom">🎯</option>
       </select>
-      <button class="fadd" onclick="addHabit()">+</button>
+      <button class="add-btn" onclick="addHabit()">+</button>
     </div>
-    <div class="tpls">
-      <button class="tpl" onclick="qAdd('Read 10 pages','🧠 Mind')">📖 Read</button>
-      <button class="tpl" onclick="qAdd('Cold shower','💪 Health')">🚿 Cold shower</button>
-      <button class="tpl" onclick="qAdd('No alcohol','💪 Health')">🚫 No alcohol</button>
-      <button class="tpl" onclick="qAdd('Meditate 5 min','🧠 Mind')">🧘 Meditate</button>
-      <button class="tpl" onclick="qAdd('Call someone I care about','✨ Self')">📞 Connect</button>
-      <button class="tpl" onclick="qAdd('Plan tomorrow','💰 Finance')">📋 Plan</button>
-      <button class="tpl" onclick="qAdd('No social media before 9am','🧠 Mind')">📵 No scroll</button>
+    <div class="template-chips">
+      <button class="chip" onclick="qAdd('Read 10 pages','🧠 Mind')">📖 Read</button>
+      <button class="chip" onclick="qAdd('Cold shower','💪 Health')">🚿 Cold shower</button>
+      <button class="chip" onclick="qAdd('No alcohol','💪 Health')">🚫 No alcohol</button>
+      <button class="chip" onclick="qAdd('Meditate','🧠 Mind')">🧘 Meditate</button>
+      <button class="chip" onclick="qAdd('Connect with someone','✨ Self')">📞 Connect</button>
+      <button class="chip" onclick="qAdd('Plan tomorrow','💰 Finance')">📋 Plan</button>
+      <button class="chip" onclick="qAdd('No social before 9am','🧠 Mind')">📵 No scroll</button>
+      <button class="chip" onclick="qAdd('Take vitamins','💪 Health')">💊 Vitamins</button>
     </div>
   </div>
-  <button class="lbtn" id="lockBtn" onclick="saveDay()">Lock in today ✓</button>
+
+  <button class="lock-btn" id="lockBtn" onclick="lockDay()">Lock in today ✓</button>
 </div>
 
-<div class="view" id="view-progress">
-  <div class="sec">This week</div>
-  <div class="card cp">
-    <div style="font-size:12px;color:var(--t3);margin-bottom:6px;">Habit completion %</div>
-    <div class="bc" id="weekChart"></div>
-    <div style="display:flex;justify-content:space-between;" id="weekLbls"></div>
-  </div>
-  <div class="sec">No-gambling streak</div>
-  <div class="card cp">
-    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">
-      <div style="font-size:30px;font-weight:700;color:var(--green);" id="streakBig">0</div>
-      <div style="font-size:12px;color:var(--t3);">days clean</div>
-    </div>
-    <div class="sdots" id="streakDots"></div>
-    <div style="font-size:11px;color:var(--t3);">Last 7 days — green = clean</div>
-  </div>
-  <div class="sec">Weight</div>
-  <div class="w-row">
-    <input class="w-input" id="wInput" type="number" step="0.1" placeholder="kg..."/>
-    <button class="w-btn" onclick="logWeight()">Log</button>
-  </div>
-  <div class="card cp">
-    <div style="font-size:12px;color:var(--t3);margin-bottom:6px;">Weight history</div>
-    <div class="bc" id="weightChart" style="height:70px;"></div>
-    <div style="display:flex;justify-content:space-between;" id="weightLbls"></div>
-  </div>
-  <div class="sec">Coffee</div>
-  <div class="mg">
-    <div class="mc"><div class="mv" style="color:var(--amber);" id="coffeeToday2">0</div><div class="ml">Today</div></div>
-    <div class="mc"><div class="mv" style="color:var(--amber);" id="coffeeAvg">—</div><div class="ml">7-day avg</div></div>
-  </div>
-  <div class="coffee-row">
-    <div class="cups" id="coffeeCups"></div>
-    <button class="c-btn" onclick="addCoffee()">+ Coffee</button>
-  </div>
-</div>
-
+<!-- FINANCE -->
 <div class="view" id="view-finance">
-  <div class="sec">Debt</div>
-  <div class="card cp" id="debtCard" style="border:1px solid var(--red);">
-    <div style="font-size:12px;color:var(--t3);margin-bottom:5px;">Credit card — clears ~Aug 2026</div>
-    <div style="font-size:30px;font-weight:700;color:var(--red);" id="debtNum">$13,600</div>
-    <div style="font-size:11px;color:var(--t3);margin-top:3px;">July comms wipes most of it</div>
-  </div>
-  <div class="sec">Savings</div>
-  <div class="sv-card">
-    <div class="sv-top">
-      <div class="sv-num" id="savNum">$0</div>
-      <div class="sv-goal">/ <span id="savGoalDisplay">$30,000</span></div>
-    </div>
-    <div class="pb"><div class="pf" id="savFill" style="width:0%"></div></div>
-    <div class="pm"><span id="savPct">0%</span><span>Jun 2027</span></div>
-  </div>
-  <div class="f-row" style="margin-bottom:10px;">
-    <input class="fi" id="savInput" type="number" placeholder="Update savings ($)"/>
-    <button class="fadd" onclick="updateSavings()">Save</button>
-  </div>
-  <div class="sec">Projection</div>
-  <div class="card cp">
-    <div class="bc" id="savChart" style="height:90px;"></div>
-    <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--t3);margin-top:3px;">
-      <span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span>
+  <div class="finance-hero">
+    <div class="fin-grid">
+      <div class="fin-card">
+        <div class="fin-val" style="color:var(--green);" id="finIncome">$9,200</div>
+        <div class="fin-lbl">Monthly income</div>
+      </div>
+      <div class="fin-card">
+        <div class="fin-val" style="color:var(--blue);" id="finFree">$4,310</div>
+        <div class="fin-lbl">Free to save</div>
+      </div>
+      <div class="fin-card">
+        <div class="fin-val" style="color:var(--amber);" id="finSpentMonth">$0</div>
+        <div class="fin-lbl">Spent this month</div>
+      </div>
+      <div class="fin-card">
+        <div class="fin-val" style="color:var(--red);" id="finDebt">$13,600</div>
+        <div class="fin-lbl">Total debt</div>
+      </div>
     </div>
   </div>
-  <div class="sec">Breakdown</div>
-  <div class="mg">
-    <div class="mc"><div class="mv" style="color:var(--green);" id="incomeDisplay">$9,200</div><div class="ml">Net income</div></div>
-    <div class="mc"><div class="mv" style="color:var(--red);" id="housingDisplay">$3,390</div><div class="ml">Housing</div></div>
-    <div class="mc"><div class="mv" style="color:var(--amber);" id="livingDisplay">$1,500</div><div class="ml">Living</div></div>
-    <div class="mc"><div class="mv" style="color:var(--blue);" id="freeDisplay">$4,310</div><div class="ml">Free to save</div></div>
+
+  <div class="savings-card">
+    <div class="sav-top">
+      <div class="sav-num" id="finSavNum">$0</div>
+      <div class="sav-goal">/ <span id="finSavGoal">$30,000</span> goal</div>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="finSavFill" style="width:0%"></div></div>
+    <div class="prog-meta"><span id="finSavPct">0%</span><span id="finSavETA">Est. Jun 2027</span></div>
+  </div>
+
+  <div class="line-chart-wrap">
+    <div class="chart-title">Savings projection to goal</div>
+    <svg class="line-chart-svg" id="savingsLineChart" viewBox="0 0 340 140" preserveAspectRatio="none"></svg>
+  </div>
+
+  <div class="sec">Log expense <span class="sec-action" onclick="toggleExpenseForm()">+ Add</span></div>
+  <div class="add-expense-card" id="expenseForm" style="display:none;">
+    <div class="input-row" style="margin-bottom:8px;">
+      <input class="txt-input" id="expName" placeholder="What did you spend on?"/>
+      <input class="txt-input" id="expAmt" type="number" placeholder="$" style="max-width:80px;"/>
+    </div>
+    <div class="input-row">
+      <select class="sel-input" id="expCat" style="flex:1;"></select>
+      <button class="add-btn" onclick="addExpense()">Add</button>
+    </div>
+  </div>
+
+  <div class="sec">Spending by category</div>
+  <div class="card cp" id="catBreakdown"></div>
+
+  <div class="sec">Recent expenses</div>
+  <div class="expense-log" id="expenseList"></div>
+
+  <div class="sec">Update savings</div>
+  <div class="input-row">
+    <input class="txt-input" id="savUpdateInput" type="number" placeholder="Current savings ($)"/>
+    <button class="add-btn" onclick="updateSavings()">Save</button>
   </div>
 </div>
 
+<!-- PROGRESS -->
+<div class="view" id="view-progress">
+  <div class="sec">Habit completion — last 28 days</div>
+  <div class="bar-chart-wrap">
+    <div class="bars" id="weekBars"></div>
+    <div style="display:flex;justify-content:space-between;" id="weekLabels"></div>
+  </div>
+
+  <div class="sec">Individual habit streaks</div>
+  <div class="habit-streak-list" id="habitStreakList"></div>
+
+  <div class="sec">Trends</div>
+  <div class="trend-grid">
+    <div class="trend-card">
+      <div class="trend-val" style="color:var(--blue);" id="trendWeight">—</div>
+      <div class="trend-lbl">Weight (kg)</div>
+      <div class="trend-delta" id="trendWeightDelta"></div>
+    </div>
+    <div class="trend-card">
+      <div class="trend-val" style="color:var(--amber);" id="trendCoffee">—</div>
+      <div class="trend-lbl">Avg coffees</div>
+      <div class="trend-delta" id="trendCoffeeDelta"></div>
+    </div>
+    <div class="trend-card">
+      <div class="trend-val" style="color:var(--purple);" id="trendMood">—</div>
+      <div class="trend-lbl">Avg mood</div>
+      <div class="trend-delta"></div>
+    </div>
+    <div class="trend-card">
+      <div class="trend-val" style="color:var(--green);" id="trendStreak">0</div>
+      <div class="trend-lbl">Best streak</div>
+      <div class="trend-delta"></div>
+    </div>
+  </div>
+
+  <div class="sec">Mood history</div>
+  <div class="bar-chart-wrap">
+    <div class="mood-trend-row" id="moodTrendRow"></div>
+  </div>
+
+  <div class="sec">Weight</div>
+  <div class="w-log-row">
+    <input class="w-log-input" id="weightInput" type="number" step="0.1" placeholder="68.0 kg"/>
+    <button class="w-log-btn" onclick="logWeight()">Log</button>
+  </div>
+  <div class="bar-chart-wrap">
+    <div class="bars" id="weightBars" style="height:70px;"></div>
+    <div style="display:flex;justify-content:space-between;" id="weightLabels"></div>
+  </div>
+
+  <div class="sec">Coffee trend</div>
+  <div class="bar-chart-wrap">
+    <div class="bars" id="coffeeBars" style="height:60px;"></div>
+    <div style="display:flex;justify-content:space-between;" id="coffeeBarLabels"></div>
+  </div>
+</div>
+
+<!-- GOALS -->
 <div class="view" id="view-goals">
-  <div class="sec">Milestones <span class="tag" style="color:var(--blue);" onclick="toggleMsEdit()">edit</span></div>
-  <div class="card" style="padding:4px 15px;" id="msList"></div>
-  <div id="msEditSection" style="display:none;margin-top:10px;">
+  <div class="goals-hero">
+    <div class="goals-title">Your roadmap 🗺</div>
+    <div class="goals-sub" id="goalsDebtFree">Debt-free in — days</div>
+  </div>
+
+  <div class="sec">Milestones <span class="sec-action" onclick="toggleMsEdit()">Edit</span></div>
+  <div class="card" style="padding:4px 16px;" id="msList"></div>
+
+  <div id="msEditWrap" style="display:none;">
     <div class="sec">Edit milestones</div>
     <div id="msEditList"></div>
-    <button class="fadd" onclick="addMilestone()" style="padding:10px 16px;margin-bottom:10px;">+ Add milestone</button>
+    <button class="add-btn" onclick="addMs()" style="width:100%;padding:12px;border-radius:var(--r-md);margin-bottom:10px;">+ Add milestone</button>
   </div>
 </div>
 
+<!-- MIND -->
 <div class="view" id="view-mind">
-  <div class="sec">One win today</div>
-  <div class="jcard"><textarea id="winInput" rows="2" placeholder="Something I did well today..."></textarea></div>
-  <div class="sec">How I'm feeling</div>
-  <div class="mood-row">
-    <button class="mb" onclick="setMood(this)">🔥 Locked in</button>
-    <button class="mb" onclick="setMood(this)">😐 Getting through</button>
-    <button class="mb" onclick="setMood(this)">😤 Struggled</button>
-    <button class="mb" onclick="setMood(this)">😮‍💨 Rough one</button>
+  <div class="mind-hero">
+    <div style="font-size:22px;font-weight:700;letter-spacing:-.5px;margin-bottom:4px;">How are you?</div>
+    <div style="font-size:13px;color:var(--t2);">Check in honestly. No one else sees this.</div>
   </div>
+
+  <div class="sec">Today's check-in</div>
+  <div class="checkin-grid">
+    <div class="checkin-card">
+      <div class="checkin-label">Mood</div>
+      <div class="emoji-row" id="moodRow">
+        <span class="emoji-opt" data-group="mood" data-val="1" onclick="setCheckin('mood',1,this)">😞</span>
+        <span class="emoji-opt" data-group="mood" data-val="2" onclick="setCheckin('mood',2,this)">😐</span>
+        <span class="emoji-opt" data-group="mood" data-val="3" onclick="setCheckin('mood',3,this)">🙂</span>
+        <span class="emoji-opt" data-group="mood" data-val="4" onclick="setCheckin('mood',4,this)">😄</span>
+      </div>
+    </div>
+    <div class="checkin-card">
+      <div class="checkin-label">Energy</div>
+      <div class="emoji-row" id="energyRow">
+        <span class="emoji-opt" data-group="energy" data-val="1" onclick="setCheckin('energy',1,this)">🪫</span>
+        <span class="emoji-opt" data-group="energy" data-val="2" onclick="setCheckin('energy',2,this)">😴</span>
+        <span class="emoji-opt" data-group="energy" data-val="3" onclick="setCheckin('energy',3,this)">⚡</span>
+        <span class="emoji-opt" data-group="energy" data-val="4" onclick="setCheckin('energy',4,this)">🔥</span>
+      </div>
+    </div>
+    <div class="checkin-card">
+      <div class="checkin-label">Anxiety</div>
+      <div class="emoji-row" id="anxietyRow">
+        <span class="emoji-opt" data-group="anxiety" data-val="1" onclick="setCheckin('anxiety',1,this)">😌</span>
+        <span class="emoji-opt" data-group="anxiety" data-val="2" onclick="setCheckin('anxiety',2,this)">😕</span>
+        <span class="emoji-opt" data-group="anxiety" data-val="3" onclick="setCheckin('anxiety',3,this)">😟</span>
+        <span class="emoji-opt" data-group="anxiety" data-val="4" onclick="setCheckin('anxiety',4,this)">😰</span>
+      </div>
+    </div>
+    <div class="checkin-card">
+      <div class="checkin-label">Focus</div>
+      <div class="emoji-row" id="focusRow">
+        <span class="emoji-opt" data-group="focus" data-val="1" onclick="setCheckin('focus',1,this)">🌫️</span>
+        <span class="emoji-opt" data-group="focus" data-val="2" onclick="setCheckin('focus',2,this)">😶</span>
+        <span class="emoji-opt" data-group="focus" data-val="3" onclick="setCheckin('focus',3,this)">🎯</span>
+        <span class="emoji-opt" data-group="focus" data-val="4" onclick="setCheckin('focus',4,this)">🔬</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">Gratitude</div>
+  <div class="gratitude-card">
+    <div class="grat-prompt" id="gratPrompt"></div>
+    <div class="grat-items">
+      <div class="grat-item"><div class="grat-num">1.</div><input class="grat-input" id="grat1" placeholder="I'm grateful for..."/></div>
+      <div class="grat-item"><div class="grat-num">2.</div><input class="grat-input" id="grat2" placeholder=""/></div>
+      <div class="grat-item"><div class="grat-num">3.</div><input class="grat-input" id="grat3" placeholder=""/></div>
+    </div>
+  </div>
+
   <div class="sec">Journal</div>
-  <div class="jcard"><textarea id="journalInput" rows="6" placeholder="Dump it here. No one sees this but you..."></textarea></div>
-  <div class="sec">Win log</div>
-  <div class="card" style="padding:4px 15px;" id="winsLog"></div>
-  <button class="lbtn" onclick="saveJournal()">Save entry ✓</button>
+  <div class="journal-card">
+    <div class="journal-prompt" id="journalPrompt"></div>
+    <textarea id="journalText" rows="5" placeholder="Write freely..."></textarea>
+  </div>
+
+  <div class="sec">Today's win</div>
+  <div class="win-card">
+    <div class="win-input-row">
+      <input class="txt-input" id="winInput" placeholder="Something I did well today..."/>
+      <button class="add-btn" onclick="addWin()">+</button>
+    </div>
+    <div id="winsList"></div>
+  </div>
+
+  <button class="lock-btn" onclick="saveMind()">Save today's mind entry ✓</button>
 </div>
 
+<!-- SETTINGS -->
 <div class="view" id="view-settings">
   <div class="sec">Profile</div>
   <div class="set-group">
-    <div class="set-row"><div><div class="set-lbl">Name</div></div><input class="set-input" id="setName" placeholder="Luke" onchange="S.name=this.value;persist()"/></div>
-    <div class="set-row"><div><div class="set-lbl">Coffee limit / day</div></div><input class="set-input" id="setCoffeeLimit" type="number" onchange="S.coffeeLimit=parseInt(this.value);persist()"/></div>
+    <div class="set-row"><div><div class="set-lbl">Name</div></div><input class="set-input" id="setName" placeholder="Luke" onchange="S.name=this.value;persist();"/></div>
+    <div class="set-row"><div><div class="set-lbl">Coffee limit/day</div></div><input class="set-input" id="setCoffeeLimit" type="number" onchange="S.coffeeLimit=parseInt(this.value);persist();"/></div>
+    <div class="set-row"><div><div class="set-lbl">Property equity</div><div class="set-sub">Your share of home equity</div></div><input class="set-input" id="setEquity" type="number" onchange="S.equity=parseFloat(this.value);persist();renderDash();"/></div>
   </div>
   <div class="sec">Finance</div>
   <div class="set-group">
-    <div class="set-row"><div><div class="set-lbl">Monthly net income</div><div class="set-sub">After tax take-home</div></div><input class="set-input" id="setIncome" type="number" onchange="updateFinance()"/></div>
-    <div class="set-row"><div><div class="set-lbl">Housing (your share)</div></div><input class="set-input" id="setHousing" type="number" onchange="updateFinance()"/></div>
-    <div class="set-row"><div><div class="set-lbl">Living costs</div></div><input class="set-input" id="setLiving" type="number" onchange="updateFinance()"/></div>
-    <div class="set-row"><div><div class="set-lbl">Savings goal</div></div><input class="set-input" id="setSavGoal" type="number" onchange="updateFinance()"/></div>
-    <div class="set-row"><div><div class="set-lbl">Current debt</div></div><input class="set-input" id="setDebt" type="number" onchange="S.debt=parseFloat(this.value);persist();renderDebt()"/></div>
-    <div class="set-row"><div><div class="set-lbl">Current savings</div></div><input class="set-input" id="setSavings" type="number" onchange="S.savings=parseFloat(this.value);persist();renderSavings();renderSavingsChart()"/></div>
+    <div class="set-row"><div><div class="set-lbl">Monthly net income</div></div><input class="set-input" id="setIncome" type="number" onchange="updateFinanceSettings()"/></div>
+    <div class="set-row"><div><div class="set-lbl">Housing (your share)</div></div><input class="set-input" id="setHousing" type="number" onchange="updateFinanceSettings()"/></div>
+    <div class="set-row"><div><div class="set-lbl">Living costs</div></div><input class="set-input" id="setLiving" type="number" onchange="updateFinanceSettings()"/></div>
+    <div class="set-row"><div><div class="set-lbl">Savings goal</div></div><input class="set-input" id="setSavGoal" type="number" onchange="updateFinanceSettings()"/></div>
+    <div class="set-row"><div><div class="set-lbl">Current debt</div></div><input class="set-input" id="setDebt" type="number" onchange="S.debt=parseFloat(this.value);persist();renderFinance();renderDash();"/></div>
+    <div class="set-row"><div><div class="set-lbl">Current savings</div></div><input class="set-input" id="setSavings" type="number" onchange="S.savings=parseFloat(this.value);persist();renderFinance();renderDash();"/></div>
   </div>
-  <div class="sec">Daily intention</div>
-  <div class="set-group">
-    <div class="set-row" style="flex-direction:column;align-items:flex-start;gap:8px;">
-      <div class="set-lbl">Your intention</div>
-      <textarea id="setIntention" rows="3" style="width:100%;background:var(--s2);border:1px solid var(--b2);border-radius:9px;padding:9px 11px;color:var(--tx);font-size:13px;resize:none;outline:none;line-height:1.6;" placeholder="Write your daily intention..." onchange="S.intention=this.value;S.rotateIntention=false;persist();renderIntention()"></textarea>
-    </div>
-    <div class="set-row"><div><div class="set-lbl">Rotate built-in prompts</div><div class="set-sub">Changes daily automatically</div></div><button class="set-btn" id="rotateBtn" onclick="S.rotateIntention=!S.rotateIntention;this.textContent=S.rotateIntention?'On':'Off';persist();renderIntention()">On</button></div>
-  </div>
-  <div class="sec">Habits</div>
-  <div class="set-group" id="habitEditList"></div>
+  <div class="sec">Expense categories</div>
+  <div class="set-group" id="catEditList"></div>
+  <button class="add-btn" onclick="addCat()" style="width:100%;padding:12px;border-radius:var(--r-md);margin-bottom:10px;">+ Add category</button>
   <div class="sec">Streak</div>
   <div class="set-group">
-    <div class="set-row"><div><div class="set-lbl">No-gambling streak</div><div class="set-sub">Edit if needed</div></div><input class="set-input" id="setStreak" type="number" onchange="S.streak=parseInt(this.value);persist();document.getElementById('streakNum').textContent=S.streak;document.getElementById('streakBig').textContent=S.streak;"/></div>
+    <div class="set-row"><div><div class="set-lbl">No-gambling streak</div><div class="set-sub">Edit if needed</div></div><input class="set-input" id="setStreak" type="number" onchange="S.streak=parseInt(this.value);persist();renderDash();"/></div>
   </div>
   <div class="sec">Data</div>
   <div class="set-group">
-    <div class="set-row"><div><div class="set-lbl">Export data</div><div class="set-sub">Download as JSON backup</div></div><button class="set-btn" onclick="exportData()">Export</button></div>
+    <div class="set-row"><div><div class="set-lbl">Export data</div><div class="set-sub">Download JSON backup</div></div><button class="set-btn" onclick="exportData()">Export</button></div>
     <div class="set-row"><div><div class="set-lbl">Reset everything</div><div class="set-sub">Cannot be undone</div></div><button class="set-btn danger" onclick="resetAll()">Reset</button></div>
   </div>
 </div>
 
-<nav class="nav" role="navigation" aria-label="Main navigation">
-  <button class="nb active" onclick="goNav('today',this)"><i class="ti ti-home" aria-hidden="true"></i>Today</button>
-  <button class="nb" onclick="goNav('progress',this)"><i class="ti ti-chart-bar" aria-hidden="true"></i>Progress</button>
-  <button class="nb" onclick="goNav('finance',this)"><i class="ti ti-coin" aria-hidden="true"></i>Finance</button>
-  <button class="nb" onclick="goNav('goals',this)"><i class="ti ti-trophy" aria-hidden="true"></i>Goals</button>
-  <button class="nb" onclick="goNav('mind',this)"><i class="ti ti-brain" aria-hidden="true"></i>Mind</button>
-  <button class="nb" onclick="goNav('settings',this)"><i class="ti ti-settings" aria-hidden="true"></i>Settings</button>
+<nav class="nav">
+  <button class="nb active" onclick="goNav('dash',this)"><i class="ti ti-layout-dashboard"></i>Home</button>
+  <button class="nb" onclick="goNav('today',this)"><i class="ti ti-check"></i>Today</button>
+  <button class="nb" onclick="goNav('finance',this)"><i class="ti ti-coin"></i>Finance</button>
+  <button class="nb" onclick="goNav('progress',this)"><i class="ti ti-chart-bar"></i>Progress</button>
+  <button class="nb" onclick="goNav('goals',this)"><i class="ti ti-trophy"></i>Goals</button>
+  <button class="nb" onclick="goNav('mind',this)"><i class="ti ti-brain"></i>Mind</button>
+  <button class="nb" onclick="goNav('settings',this)"><i class="ti ti-settings"></i>More</button>
 </nav>
 
 <script>
-const INTENTIONS=["Today I build the person I'm becoming, one small action at a time.","I don't need motivation. I need discipline. Starting now.","Every day clean is proof I'm stronger than I thought.","Small consistent actions compound into a life I'm proud of.","I show up for myself today because future me is counting on it.","Debt is temporary. Identity is built daily.","I am not my worst moments. I am what I do next.","Today: no gambling, real food, move my body. That's enough.","The streak continues because I choose it to.","One year from now I'll be glad I started today."];
-const DEFAULT_HABITS=[{id:'f1',name:'Check my budget',sub:'Know where every dollar is',cat:'💰 Finance',core:true},{id:'f2',name:'No unnecessary spend',sub:'Needs only',cat:'💰 Finance',core:true},{id:'h1',name:'Move my body',sub:'Walk, gym, 20+ min',cat:'💪 Health',core:true},{id:'h2',name:'Eat real food',sub:'Veg, protein, less processed',cat:'💪 Health',core:true},{id:'h3',name:'Max 2 coffees',sub:'Swap the rest for water',cat:'💪 Health',core:true},{id:'n1',name:'No gambling today',sub:'Tick this every single day',cat:'🚫 Non-neg',core:true,highlight:true},{id:'s1',name:'30 min on the app',sub:'Design, code, or plan',cat:'🛠 Hustle',core:true},{id:'s2',name:'One work win',sub:'Move something forward',cat:'🛠 Hustle',core:true},{id:'se1',name:'Groomed and presentable',sub:'Show up for yourself',cat:'✨ Self',core:true},{id:'se2',name:'In bed by midnight',sub:'Sleep is recovery',cat:'✨ Self',core:true},{id:'m1',name:'10 min no screens',sub:'Morning or night',cat:'🧠 Mind',core:true}];
-const DEFAULT_MILESTONES=[{id:'ms1',title:'July comms lands',date:'Mid July 2026',status:'now'},{id:'ms2',title:'Credit card cleared',date:'August 2026',status:'future'},{id:'ms3',title:'First $10k saved',date:'November 2026',status:'future'},{id:'ms4',title:'App MVP live',date:'Feb 2027',status:'future'},{id:'ms5',title:'Thailand — teeth done',date:'Early 2027',status:'future'},{id:'ms6',title:'$30k savings',date:'June 2027',status:'future'},{id:'ms7',title:'Baby prep funded',date:'Mid 2027',status:'future'},{id:'ms8',title:'Germany + Shaolin Temple',date:'Long term',status:'future'}];
-let S={habits:[...DEFAULT_HABITS],milestones:[...DEFAULT_MILESTONES],checked:{},streak:0,streakHistory:[],savings:0,savingsGoal:30000,debt:13600,income:9200,housing:3390,living:1500,coffeeToday:0,coffeeHistory:[],weightHistory:[],weekHistory:[],wins:[],intention:'',rotateIntention:true,name:'Luke',coffeeLimit:2};
-function load(){try{const d=localStorage.getItem('resetV3');if(d)S={...S,...JSON.parse(d)};}catch(e){}initUI();render();}
-function persist(){try{localStorage.setItem('resetV3',JSON.stringify(S));}catch(e){}}
-function sv(id,v){const el=document.getElementById(id);if(el)el.value=v;}
-function initUI(){
-  const now=new Date();const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  document.getElementById('appDate').textContent=days[now.getDay()]+', '+now.getDate()+' '+months[now.getMonth()];
-  sv('setName',S.name||'Luke');sv('setCoffeeLimit',S.coffeeLimit||2);sv('setIncome',S.income||9200);sv('setHousing',S.housing||3390);sv('setLiving',S.living||1500);sv('setSavGoal',S.savingsGoal||30000);sv('setDebt',S.debt||13600);sv('setSavings',S.savings||0);sv('setStreak',S.streak||0);sv('setIntention',S.intention||'');
-  const rb=document.getElementById('rotateBtn');if(rb)rb.textContent=S.rotateIntention?'On':'Off';
+// ===================== CONTENT =====================
+const INTENTIONS=["Today you're not trying to be perfect. You're trying to be better than yesterday. That's it.","Ingridy married the man you're becoming. Show up for her today.","The streak doesn't care how you feel. It only cares what you do.","Free men don't owe banks money. Get after it.","Your future kid is going to look up to you. What are you showing them today?","Discipline is just deciding in advance. You already decided. Now execute.","You're not broke. You're building. Big difference.","One clean day compounds into a clean life. Start the compound today.","The body you want is built on days you don't feel like it.","Debt is just borrowed time. Take yours back.","Every habit you tick is a vote for the man you're becoming.","The old version of you gambled. The new version builds. Choose.","Small things done consistently destroy big things done occasionally.","You're 37 with equity, income and a plan. Most people would kill for your starting point.","Build the app. Clear the debt. Love your wife. That's the whole game today.","Pain now, pride later. It's always been that way.","Your streak is your reputation with yourself. Protect it.","Marcus Aurelius ran an empire and still did the work. You've got 11 habits.","The version of you that hits $30k saved starts with today.","Don't romanticise the goal. Fall in love with the process.","You're not quitting gambling for you. You're quitting for everyone you love.","A year from now you'll either be glad you started or wish you had.","Your body is your first business. Invest in it accordingly.","Casual effort produces casual results. You're not after casual.","Sydney's expensive. Freedom's more expensive. Work for freedom.","Today's the day the future version of you was counting on.","You don't need to feel ready. Ready is a myth. Go anyway.","The gambler version of you is done. The builder version is just getting started.","Ingridy chose you. Choose yourself today.","Strong body, clear mind, growing account. That's the trinity. Chase all three.","Debt has an expiry date. Today you're speeding it up.","You built a life in Sydney from scratch. This reset is nothing compared to that.","Being a dad starts with being a man. Do the work.","Compound interest works on habits too. Start early, stay consistent.","What would the version of you in 5 years say about today?","Stoics didn't journal to feel better. They journalled to get clearer. Get clear.","The Thailand trip, the hairline, the teeth — all of it's waiting on the other side of discipline.","You're building a family. Families need foundations. You're pouring concrete today.","Clean eating is just respecting the machine. Respect the machine.","You don't rise to the level of your goals. You fall to the level of your systems.","Build the system. Trust the system. Become the system.","The debt is temporary. The habits you build to clear it are permanent.","Your SMSF is growing. Your habits should be too.","Nobody remembers the days they took it easy. They remember the days they didn't.","The man who shows up beats the man with talent every time.","You've already done the hard part — deciding to change. Now just do the reps.","Thirty minutes on the app today. Thirty minutes tomorrow. That's how products get built.","Less processed food, more real life. Simple equation.","Your body kept score when you weren't looking. Start looking.","The streak is proof that you're different now. Keep the proof growing.","Financial freedom isn't about being rich. It's about not being owned.","You chose Ingridy. You chose Sydney. Now choose discipline.","The builder mentality: ship something every day, even if it's small.","Your future self is watching. Don't embarrass him.","One expense logged. One habit ticked. One day closer. That's all this is.","Clarity comes from action, not thought. Act first today.","The debt doesn't shrink when you ignore it. It shrinks when you attack it.","You're not just building savings. You're building character.","A man who controls his habits controls his life. Control yours.","Hip hop was built in basements by people with nothing. You've got everything. Use it.","Your habits are your autobiography. What's today's chapter say?","Energy follows attention. Put your attention on building today.","Gratitude and ambition aren't opposites. Hold both.","Real talk: you've got a shot at a genuinely great life. Don't waste it on old patterns.","The baby coming needs a dad who's already done the work. Start the work.","Every win you log is evidence against the story that you can't do this.","Clean day today. Clean week this week. Clean life this year.","Discipline is a muscle. You've been training it. Don't skip the session.","The mortgage gets paid. The debt gets cleared. The savings grow. One day at a time.","Don't let a bad morning become a bad day. Reset at any point.","Your story isn't written yet. Today's page is blank. Fill it well.","The best investment you've ever made is in yourself. ROI is unlimited.","Action is the antidote to anxiety. Move today.","You've got the roadmap. You've got the timeline. You've got today. Use all three.","Small disciplines in private create big freedoms in public.","Today you eat well, move your body, and build something. That's a full life.","The streak isn't a number. It's a promise you're keeping to yourself.","You're not grinding. You're compounding. There's a difference.","Get your money right. Get your body right. Get your mind right. In that order.","What you do when no one's watching is who you actually are.","Today matters more than you think it does right now.","You've survived harder than this. Now you're going to thrive.","The reset isn't a restart. It's a level up.","Your habits are your brand. Build a brand worth having.","The debt countdown is ticking. So is the streak counter. Both in your favour.","You didn't come this far to only come this far.","Do it for Ingridy. Do it for the baby. Do it for you.","The man in the mirror is watching. Give him something to respect.","You've got this. Not because it's easy. Because you've decided.","Show up today like the version of you who already made it.","Build in silence. Let the results make the noise.","Today's habits are tomorrow's identity.","Every day you don't gamble is a day you invest in yourself instead.","Strong back. Clear head. Full account. That's the goal. Start today.","Real wealth starts between your ears. Get your mind right today.","Tick the boxes. Trust the process. Become the result.","This is your reset. Own it completely.","The discipline you build today is the freedom you feel tomorrow.","Your body is not a passenger. It's your vehicle. Fuel it right.","Thirty seven and just getting started. That's not a problem. That's a plot twist.","Do the work that past you couldn't. Future you is counting on it.","One more clean day. That's the only goal.","The wins add up. The streak adds up. The savings add up. So do you.","Real talk — you're capable of so much more than you've been giving. Prove it today.","Brick by brick. Day by day. That's how walls get built.","Your habits are the rent you pay for the life you want.","Keep the streak. Clear the debt. Build the app. Love your wife. In that order.","The reset is working. You just can't see it yet. Keep going.","What got you here won't get you there. The new habits will.","You're not broken. You're rebuilding. There's a massive difference.","Today you eat clean, move, build, and rest. That's a champion's day.","Every logged expense is you taking control back. Log it all.","The man who tracks wins more. Track everything.","The habits you build in the hard times are the ones that define you.","You're not just saving money. You're buying back your time.","Today's small action is next year's massive result.","Real ones don't quit when it gets hard. They get harder.","The version of you that wins is the one that shows up when he doesn't feel like it.","You've got the blueprint. Now build the building.","Every day you show up is a day the old version of you loses ground.","Stack the habits like you stack the wins. Relentlessly.","Today's the day you look back on and say — that's when it turned.","Debt is a cage. Discipline is the key. Use it.","The streak is sacred. Protect it like your most important asset.","You're building equity in yourself every single day. Keep investing.","Casual people have casual lives. You're not casual anymore.","The win log doesn't lie. You've been doing the work. Keep going.","Build the life, not just the bank account. Both matter.","Do it scared. Do it tired. Do it anyway.","The people who change their lives don't wait for perfect conditions.","Your why is bigger than your excuses. Remember your why.","Today you're a builder. Act accordingly.","You've got everything you need. You always did.","Lock in. Show up. Build. Repeat.","Today is another brick in the wall between you and who you used to be.","The hard days are the important days. Make today count.","You're not waiting anymore. You're building.","Every habit ticked is a message to your subconscious: I am the kind of man who does this.","The streak, the savings, the body — it's all the same energy. Channel it.","The reset was a gift. Unwrap it every single day.","Today's the day. Let's go.","You've got the momentum now. Don't waste it.","Small wins compounding into a life you're proud of. That's the whole game.","Your habits are your vote. Vote for the life you want.","Do the reps. Log the wins. Build the life.","Today's discipline is tomorrow's freedom. That's not a metaphor.","You're already doing it. Keep doing it.","The man who keeps his word to himself is unstoppable. Keep your word today.","Reset. Rebuild. Rise. That's your story. Write it today.","Eyes on the scoreboard. Hands on the work. Heart in the game.","Today you build. Tomorrow you build. That's who you are now.","The best time to be disciplined is when you feel least like it. Especially today.","Your future self is already proud. Don't let him down.","This is the life you're choosing. Choose it fully today.","Lock it in, mate. You've got this.","The work is the reward. The discipline is the gift. The streak is the proof.","Go be the man you know you can be. Today.","Ingridy. Baby. Body. App. Savings. Freedom. That's the whole mission. Move.","The version of you that wins already exists. He just shows up every day. Be him."];
+
+const GRATITUDE_PROMPTS=["What's one thing your body did today that you usually take for granted?","Who's one person in your life you genuinely couldn't do this without?","What's something about Ingridy that made you smile recently?","What's one thing about your home in Rosebery that you love?","What's a skill you have that you forget to appreciate?","What moment from this week would you want to relive?","What's one thing your past self did that set you up for where you are today?","What's something small that happened today that was actually pretty good?","What's one thing about your work that you're genuinely good at?","What's a possession you own that genuinely improves your life daily?","Who believed in you when you didn't believe in yourself?","What's one thing about Sydney that you love living in?","What's something you learned recently that changed how you think?","What's one financial asset you have that your younger self would be amazed by?","What's one thing your body can do that you should appreciate more?","Who's someone who'd miss you if you weren't around?","What's one thing about this reset that's actually working?","What's a memory from the past year that made you genuinely happy?","What's one thing you're building that excites you when you think about it?","What's something you used to struggle with that you're now better at?","What's one luxury in your daily life you'd notice immediately if it was gone?","What's something about your relationship with Ingridy that you're proud of?","What's one thing your salary allows you to do that you're grateful for?","What's a challenge you've overcome that made you stronger?","What's one habit you've built that's already changing your life?","What's something about your future that genuinely excites you?","What's one person who's been unexpectedly kind to you recently?","What's something about your personality that serves you well?","What's one moment of peace you've had recently, however brief?","What's something about being 37 that's actually better than being younger?","What's one thing you created or built that you're proud of?","What's a song or album that genuinely lifts your mood?","What's one thing about your life that someone else would envy?","What's a conversation you had recently that meant something?","What's one thing your home has that makes it feel like yours?","What's something about the morning that you can find beauty in?","What's one goal you're working toward that genuinely matters to you?","What's something that used to stress you out that doesn't anymore?","What's one thing about your body you can appreciate today?","What's a piece of technology you're grateful exists?","What's something about your career that you're actually good at?","What's one small pleasure in your daily routine?","What's something you're looking forward to in the next month?","What's one relationship in your life that makes you better?","What's something you did this week that took courage?","What's one thing about your financial situation that's actually positive right now?","What's a book, show, or piece of content that's genuinely enriched your life?","What's something about your culture or background you appreciate?","What's one thing you own that brings you genuine joy?","What's a quality in Ingridy that you admire deeply?","What's one thing about today that didn't go perfectly but could have been worse?","What's a skill you're developing that you're excited about?","What's one thing about being alive right now that you're grateful for?","What's a place in Sydney you love and haven't visited in a while?","What's something your future kid will benefit from because you're doing the work now?","What's one thing about your morning routine that you appreciate?","What's a quality in yourself that you're starting to believe in again?","What's something you're no longer doing that you're grateful you stopped?","What's one thing that made you laugh recently?","What's something about your home life that you'd never trade?"];
+
+const JOURNAL_PROMPTS=["What's one thing you did today that the old version of you wouldn't have?","If you could tell your 25-year-old self one thing, what would it be?","What's the biggest lie you've been telling yourself lately?","What would you do if you knew you couldn't fail?","What does financial freedom actually look like to you in detail?","What kind of dad do you want to be, and what are you doing today to become him?","What's one thing you're avoiding that you know you need to face?","What's one pattern you've noticed in yourself that you want to break?","What does a perfect day look like for you in 3 years?","What does being a good husband mean to you right now?","What's one thing you're proud of that you don't talk about enough?","What does the version of you who hit $30k savings look like day to day?","What's draining your energy that you haven't addressed?","What would you attempt if you weren't scared of what people thought?","What's one thing you need to forgive yourself for so you can move forward?","What does wealth actually mean to you beyond money?","What's one conversation you need to have that you've been putting off?","How do you want Ingridy to describe you in 5 years?","What's one habit that, if you never missed it again, would change everything?","What did today teach you about yourself?","What's one thing you're building that you're excited to show the world?","Where are you playing small when you could be playing big?","What would your life look like if you treated your body like an athlete's?","What's the story you tell about why things are hard? Is it true?","What does it mean to you to be debt free?","What are you most afraid of becoming? What are you doing to avoid it?","What's one thing that happened this week that you're choosing to see as a gift?","Who do you want to be more like, and what specifically about them?","What's one thing you've been meaning to start that you could begin tomorrow?","If your savings account was a mirror of your discipline, what would it show?","What's one thing you're doing for your body this week that it's thanking you for?","What's the version of your life in 2 years that would make you genuinely proud?","What's one boundary you need to set — with yourself or someone else?","If the gambling was filling a gap, what was the gap? How are you filling it now?","What would you tell your future kid about this period of your life?","What's one thing about your relationship with money you want to change?","What does a strong marriage look like to you in practice?","What's one thing you could do tomorrow that would make next week easier?","What's one thing you've achieved in the last month that you haven't acknowledged?","What does the best version of your health look like? How far away is it?","What's one fear you're ready to stop letting run your decisions?","If you woke up tomorrow and everything was exactly how you wanted — what would be different?","What's one thing you're grateful you didn't do today?","What's the conversation you need to have with yourself that you keep avoiding?","What does your ideal morning look like in 6 months?","What's one thing you can do this week to be a better husband?","What would you build if money wasn't the constraint?","What's one thing about your past that you're choosing to learn from rather than be defined by?","What's one thing you did this week that required courage?","What's one thing you want to remember about this period of your life?"];
+
+const COACH={
+  morning:{
+    0:"Day zero is actually day one. Open the app, start ticking. That's all.",
+    5:"You've started. That's not nothing — that's everything. Keep going.",
+    10:"10% in. The hardest part is showing up and you've already done that.",
+    15:"Warming up. The next habit is the most important one.",
+    20:"A fifth of the way there. You're in the game now.",
+    25:"Quarter done. Solid start mate. Keep the momentum.",
+    30:"30% ticked. That's discipline showing up before the day's even started.",
+    35:"More than a third done. The streak is safe for another day.",
+    40:"40% in. You're past the point of no return on today.",
+    45:"Nearly halfway. You're doing the work most people just talk about.",
+    50:"Halfway. Right now you're ahead of yesterday's version of you. Stay ahead.",
+    55:"Past halfway. The hard part's done. Finish strong.",
+    60:"60% done. This is where most people coast. Don't coast.",
+    65:"65% and climbing. The compound effect is working even if you can't feel it yet.",
+    70:"70% done. Three more habits and you're elite today.",
+    75:"Three quarters through. The streak counter is watching. Don't blink.",
+    80:"80% is good. But you're not built for good. You're built for complete.",
+    85:"85% — mate you're nearly there. Don't let up on the last stretch.",
+    90:"90% done. One push left. Make it count for Ingridy, for the baby, for you.",
+    95:"95% — you're basically there. One more. Do it for the streak.",
+    100:"PERFECT DAY 🔥 Locked in completely. That's who you are now. The debt is shrinking. The savings are growing. You're becoming the man your family needs. Log your win tonight."
+  },
+  evening:{
+    0:"Look — today didn't go to plan. That's real. But the app is still here, the streak can restart, and tomorrow's a clean slate. What happened today? Write it down. Be honest. Then let it go.",
+    5:"You opened the app. You tried. That's more than nothing. Tonight: what got in the way? Name it. Then remove it for tomorrow.",
+    10:"10% on the board. Honest question — where did the day go? Not a guilt trip. A real question. Your time went somewhere. Was it toward the life you're building?",
+    15:"15% today mate. You left a lot on the table. But you're still here, still tracking, still in the game. That matters. What's tomorrow's plan? Make it specific.",
+    20:"One in five habits. The potential was there, the follow-through wasn't. Fixable. Tonight: lay out your clothes, plan your meals, open the app first thing. Remove the friction.",
+    25:"Quarter done. You showed up for some of it. Why not all of it? Not to beat yourself up — to actually figure it out. Write the real answer in your journal tonight.",
+    30:"30% — tough day. It happens. But debt doesn't take days off and the streak is watching. What's one thing you can lock in before midnight?",
+    35:"35% done. You know the difference between a hard day and a lazy one. Which was today? Be honest with yourself. Then make tomorrow different.",
+    40:"40% — not a disaster, not a success. These are the days that separate people who change from people who almost changed. Push to 50% before bed.",
+    45:"45% done. Get one more habit in before you sleep — just one — and you'll feel different tomorrow morning. Do it.",
+    50:"Halfway. Right down the middle. Here's the thing about 50% days — they compound into 50% lives. You want more. What are you going to do right now?",
+    55:"55% — more than half, less than your best. The debt is still counting down. The savings are still building. Keep showing up.",
+    60:"60% done. Not perfect, but solid. The streak is intact if you ticked the non-negotiable. Tomorrow, target 70%.",
+    65:"65% and you should feel okay about that. Two thirds of your habits done. Tomorrow get to 70%. Incremental is fine — backward is not.",
+    70:"70% day. You moved, you probably ate something real, and you stayed clean. The streak lives. Keep stacking.",
+    75:"Three quarter day. Genuinely solid. The compound effect is working quietly. Your streak is your most valuable asset right now. Protect it tomorrow.",
+    80:"80% done today. That's proper work on yourself. Log a win tonight — you earned it. The savings are growing, the habits are stacking, and $30k is closer than it was yesterday.",
+    85:"85% is elite territory. You showed up hard today. The body's getting stronger, the mind's getting clearer, the account's getting bigger. Log it. Remember it. Do it again tomorrow.",
+    90:"90% day. Whatever you didn't tick, let it go. What you did is remarkable. The streak lives. The mission continues. Rest well and go again.",
+    95:"95% — you nearly ran the table today. One more habit and it'd have been perfect. Tomorrow you'll get it. Tonight: write one thing you're grateful for and one win. You earned both.",
+    100:"Perfect day. Every single habit. Locked in. 🔥 This is exactly who you said you were going to become and today you proved it. The debt is scared of you. The savings goal is closer. You're the man. Log your win. Sleep well. Do it again tomorrow."
+  }
+};
+
+// ===================== STATE =====================
+const DEFAULT_HABITS=[
+  {id:'f1',name:'Check my budget',sub:'Know where every dollar is',cat:'💰 Finance',core:true,streak:0},
+  {id:'f2',name:'No unnecessary spend',sub:'Needs only',cat:'💰 Finance',core:true,streak:0},
+  {id:'h1',name:'Move my body',sub:'Walk, gym, 20+ min',cat:'💪 Health',core:true,streak:0},
+  {id:'h2',name:'Eat real food',sub:'Veg, protein, less processed',cat:'💪 Health',core:true,streak:0},
+  {id:'h3',name:'Max 2 coffees',sub:'Swap rest for water',cat:'💪 Health',core:true,streak:0},
+  {id:'n1',name:'No gambling today',sub:'Tick this every single day',cat:'🚫 Non-neg',core:true,streak:0,highlight:true},
+  {id:'s1',name:'30 min on the app',sub:'Design, code, or plan',cat:'🛠 Hustle',core:true,streak:0},
+  {id:'s2',name:'One work win',sub:'Move something forward',cat:'🛠 Hustle',core:true,streak:0},
+  {id:'se1',name:'Groomed and presentable',sub:'Show up for yourself',cat:'✨ Self',core:true,streak:0},
+  {id:'se2',name:'In bed by midnight',sub:'Sleep is recovery',cat:'✨ Self',core:true,streak:0},
+  {id:'m1',name:'10 min no screens',sub:'Morning or night',cat:'🧠 Mind',core:true,streak:0},
+];
+
+const DEFAULT_MILESTONES=[
+  {id:'ms1',title:'July comms lands',date:'Mid July 2026',status:'now',target:null},
+  {id:'ms2',title:'Credit card cleared',date:'August 2026',status:'future',target:'2026-08-01'},
+  {id:'ms3',title:'First $10k saved',date:'November 2026',status:'future',target:'2026-11-01'},
+  {id:'ms4',title:'App MVP live',date:'Feb 2027',status:'future',target:'2027-02-01'},
+  {id:'ms5',title:'Thailand — teeth done',date:'Early 2027',status:'future',target:'2027-03-01'},
+  {id:'ms6',title:'$30k savings',date:'June 2027',status:'future',target:'2027-06-01'},
+  {id:'ms7',title:'Baby prep funded',date:'Mid 2027',status:'future',target:'2027-07-01'},
+  {id:'ms8',title:'Germany + Shaolin Temple',date:'Long term',status:'future',target:null},
+];
+
+const DEFAULT_CATS=[
+  {id:'c1',emoji:'🍜',name:'Food & dining',color:'#ff6b6b'},
+  {id:'c2',emoji:'🚗',name:'Transport',color:'#4a9eff'},
+  {id:'c3',emoji:'🎮',name:'Entertainment',color:'#b388ff'},
+  {id:'c4',emoji:'👕',name:'Shopping & clothing',color:'#ff9f43'},
+  {id:'c5',emoji:'💊',name:'Health & wellness',color:'#00e676'},
+  {id:'c6',emoji:'📱',name:'Subscriptions',color:'#64ffda'},
+  {id:'c7',emoji:'💰',name:'Savings transfer',color:'#22c97a'},
+  {id:'c8',emoji:'💳',name:'Debt repayment',color:'#ff5252'},
+  {id:'c9',emoji:'🏠',name:'Housing',color:'#ffd32a'},
+  {id:'c10',emoji:'☕',name:'Coffee & drinks',color:'#e0a96d'},
+];
+
+let S={
+  habits:[...DEFAULT_HABITS.map(h=>({...h}))],
+  milestones:[...DEFAULT_MILESTONES.map(m=>({...m}))],
+  categories:[...DEFAULT_CATS.map(c=>({...c}))],
+  checked:{},
+  checkedDate:'',
+  streak:0,
+  bestStreak:0,
+  streakHistory:[],
+  weekHistory:[],
+  savings:0,
+  savingsGoal:30000,
+  debt:13600,
+  income:9200,
+  housing:3390,
+  living:1500,
+  equity:300000,
+  coffeeToday:0,
+  coffeeHistory:[],
+  weightHistory:[],
+  expenses:[],
+  wins:[],
+  checkin:{mood:0,energy:0,anxiety:0,focus:0},
+  checkinHistory:[],
+  name:'Luke',
+  coffeeLimit:2,
+};
+
+function load(){
+  try{const d=localStorage.getItem('resetFinal');if(d){const p=JSON.parse(d);S={...S,...p};}}catch(e){}
+  checkMidnight();
+  initSettings();
+  render();
 }
-function render(){document.getElementById('streakNum').textContent=S.streak;document.getElementById('streakBig').textContent=S.streak;renderIntention();renderHabits();renderScore();renderWeekChart();renderStreakDots();renderWeightChart();renderCoffee();renderSavings();renderSavingsChart();renderDebt();renderFinanceBreakdown();renderMilestones();renderHabitSettings();renderWins();}
-function renderIntention(){const el=document.getElementById('intentionDisplay');if(!el)return;el.textContent=(S.rotateIntention||!S.intention)?INTENTIONS[new Date().getDay()%INTENTIONS.length]:S.intention;}
-function renderHabits(){
-  const cats={};S.habits.forEach(h=>{if(!cats[h.cat])cats[h.cat]=[];cats[h.cat].push(h);});
+
+function persist(){try{localStorage.setItem('resetFinal',JSON.stringify(S));}catch(e){}}
+
+function checkMidnight(){
+  const today=new Date().toDateString();
+  if(S.checkedDate!==today){
+    S.checkedDate=today;
+    S.coffeeToday=0;
+    S.checked={};
+    S.checkin={mood:0,energy:0,anxiety:0,focus:0};
+    persist();
+  }
+}
+
+function initSettings(){
+  sv('setName',S.name);sv('setCoffeeLimit',S.coffeeLimit);sv('setEquity',S.equity);
+  sv('setIncome',S.income);sv('setHousing',S.housing);sv('setLiving',S.living);
+  sv('setSavGoal',S.savingsGoal);sv('setDebt',S.debt);sv('setSavings',S.savings);
+  sv('setStreak',S.streak);
+}
+
+function sv(id,v){const el=document.getElementById(id);if(el)el.value=v;}
+function ge(id){return document.getElementById(id);}
+function fmt(n){return'$'+Math.round(n).toLocaleString();}
+function fmtK(n){return n>=1000?'$'+(n/1000).toFixed(0)+'k':fmt(n);}
+
+// ===================== RENDER =====================
+function render(){
+  renderDash();renderToday();renderFinance();renderProgress();renderGoals();renderMind();renderCatSettings();
+}
+
+function renderDash(){
+  const now=new Date();
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const greeting=now.getHours()<12?'Morning':'now.getHours()<17?\'Afternoon':'Evening';
+  ge('dashGreeting').textContent=(now.getHours()<12?'Morning, ':(now.getHours()<17?'Hey, ':'Evening, '))+(S.name||'Luke')+' 👋';
+  ge('dashDate').textContent=days[now.getDay()]+', '+now.getDate()+' '+months[now.getMonth()];
+  ge('dashStreakNum').textContent=S.streak;
+  const total=S.habits.length,done=Object.values(S.checked).filter(Boolean).length;
+  const pct=total?done/total:0;
+  ge('dashRing').style.strokeDashoffset=163.4-(163.4*pct);
+  ge('dashHabits').textContent=done+'/'+total;
+  ge('dashSavings').textContent=fmtK(S.savings);
+  ge('dashDebt').textContent=fmtK(S.debt);
+  const nw=(S.equity||300000)+S.savings-S.debt;
+  ge('dashNetWorth').textContent=fmt(nw);
+  ge('nwEquity').textContent=fmtK(S.equity||300000);
+  ge('nwSavings').textContent=fmtK(S.savings);
+  ge('nwDebt').textContent=fmtK(S.debt);
+  // Coach message
+  const pct5=Math.floor(pct*20)*5;
+  const isEvening=now.getHours()>=17;
+  const msg=(isEvening?COACH.evening:COACH.morning)[pct5]||(isEvening?COACH.evening[0]:COACH.morning[0]);
+  ge('dashCoach').textContent=msg;
+  // Mood snapshot
+  const ci=S.checkin;
+  const moodEmojis=['—','😞','😐','🙂','😄'];
+  const energyEmojis=['—','🪫','😴','⚡','🔥'];
+  const anxEmojis=['—','😌','😕','😟','😰'];
+  const focusEmojis=['—','🌫️','😶','🎯','🔬'];
+  ge('snapMood').textContent=moodEmojis[ci.mood||0];
+  ge('snapEnergy').textContent=energyEmojis[ci.energy||0];
+  ge('snapAnxiety').textContent=anxEmojis[ci.anxiety||0];
+  ge('snapFocus').textContent=focusEmojis[ci.focus||0];
+}
+
+function renderToday(){
+  // Intention
+  const day=new Date().getDay();
+  ge('intentionText').textContent=INTENTIONS[day%INTENTIONS.length]||INTENTIONS[0];
+  // Score
+  const total=S.habits.length,done=Object.values(S.checked).filter(Boolean).length;
+  ge('todayDone').textContent=done;ge('todayTotal').textContent=total;
+  ge('todayRing').style.strokeDashoffset=175.9-(175.9*(total?done/total:0));
+  // Habits
+  const cats={};
+  S.habits.forEach(h=>{if(!cats[h.cat])cats[h.cat]=[];cats[h.cat].push(h);});
   let html='';
   Object.entries(cats).forEach(([cat,habits])=>{
-    html+=`<div class="sec">${cat}</div><div class="card">`;
-    habits.forEach(h=>{const done=S.checked[h.id];const ns=h.highlight?'color:var(--green);font-weight:600;':'';html+=`<div class="hr" onclick="toggleH('${h.id}',event)"><div class="hi"><div class="hn" style="${ns}">${h.name}</div>${h.sub?`<div class="hs">${h.sub}</div>`:''}</div>${!h.core?`<button class="hdel" onclick="delH('${h.id}',event)">×</button>`:''}<div class="hc${done?' done':''}" id="hc-${h.id}"><svg class="chk" width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>`;});
+    html+=`<div class="habit-group"><div class="habit-group-hdr"><div class="habit-group-title">${cat}</div></div>`;
+    habits.forEach(h=>{
+      const done=S.checked[h.id];
+      const ns=h.highlight?'color:var(--green);font-weight:600;':'';
+      html+=`<div class="habit-row" onclick="toggleHabit('${h.id}',event)">
+        <div class="habit-info">
+          <div class="habit-name" style="${ns}">${h.name}</div>
+          ${h.sub?`<div class="habit-sub">${h.sub}</div>`:''}
+          ${h.streak>0?`<div class="habit-streak">🔥 ${h.streak} day streak</div>`:''}
+        </div>
+        ${!h.core?`<button class="habit-del" onclick="delHabit('${h.id}',event)">×</button>`:''}
+        <div class="habit-check${done?' done':''}" id="hc-${h.id}">
+          <svg class="chk-svg" width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>`;
+    });
     html+='</div>';
   });
-  document.getElementById('habitSections').innerHTML=html;renderScore();
+  ge('habitGroups').innerHTML=html;
+  // Coffee
+  renderCoffee();
 }
-function renderHabitSettings(){const el=document.getElementById('habitEditList');if(!el)return;el.innerHTML=S.habits.map(h=>`<div class="set-row" style="flex-wrap:wrap;gap:6px;"><input style="flex:1;min-width:120px;background:var(--s2);border:1px solid var(--b2);border-radius:8px;padding:6px 9px;color:var(--tx);font-size:13px;" value="${h.name}" onchange="editHN('${h.id}',this.value)"/><input style="width:100px;background:var(--s2);border:1px solid var(--b2);border-radius:8px;padding:6px 9px;color:var(--t2);font-size:11px;" value="${h.sub||''}" placeholder="subtitle" onchange="editHS('${h.id}',this.value)"/>${!h.core?`<button class="set-btn danger" onclick="delH('${h.id}',event)" style="padding:6px 10px;font-size:11px;">Del</button>`:'<span style="font-size:10px;color:var(--t3);padding:6px 4px;">core</span>'}</div>`).join('');}
-function editHN(id,v){const h=S.habits.find(x=>x.id===id);if(h){h.name=v;persist();renderHabits();}}
-function editHS(id,v){const h=S.habits.find(x=>x.id===id);if(h){h.sub=v;persist();renderHabits();}}
-function toggleH(id,e){if(e&&(e.target.classList.contains('hdel')||e.target.tagName==='BUTTON'))return;S.checked[id]=!S.checked[id];const el=document.getElementById('hc-'+id);if(el)el.classList.toggle('done',S.checked[id]);persist();renderScore();}
-function delH(id,e){if(e)e.stopPropagation();S.habits=S.habits.filter(h=>h.id!==id);delete S.checked[id];persist();renderHabits();renderHabitSettings();}
-function renderScore(){const total=S.habits.length;const done=Object.values(S.checked).filter(Boolean).length;const pct=total?done/total:0;const ring=document.getElementById('ring');if(ring)ring.style.strokeDashoffset=175.9-(175.9*pct);const sb=document.getElementById('scoreBig');if(sb)sb.textContent=done;const th=document.getElementById('totalH');if(th)th.textContent=total;}
-function addHabit(){const name=document.getElementById('hName').value.trim();const cat=document.getElementById('hCat').value;if(!name)return;S.habits.push({id:'c'+Date.now(),name,sub:'',cat,core:false});document.getElementById('hName').value='';persist();renderHabits();renderHabitSettings();}
-function qAdd(name,cat){S.habits.push({id:'t'+Date.now(),name,sub:'',cat,core:false});persist();renderHabits();renderHabitSettings();}
-function addCoffee(){S.coffeeToday=(S.coffeeToday||0)+1;persist();renderCoffee();}
-function renderCoffee(){const c=S.coffeeToday||0;const lim=S.coffeeLimit||2;const hdr=document.getElementById('coffeeHdr');if(hdr)hdr.textContent=c+' today';const ct2=document.getElementById('coffeeToday2');if(ct2)ct2.textContent=c;const cups=document.getElementById('coffeeCups');if(cups){let h='';for(let i=0;i<Math.max(c,lim);i++)h+=`<span class="cup${i<c?' on':''}">☕</span>`;cups.innerHTML=h;}const hist=S.coffeeHistory||[];const avg=hist.length?(Math.round(hist.reduce((a,b)=>a+b,0)/hist.length*10)/10).toFixed(1):'—';const ca=document.getElementById('coffeeAvg');if(ca)ca.textContent=avg;}
-function logWeight(){const v=parseFloat(document.getElementById('wInput').value);if(isNaN(v))return;if(!S.weightHistory)S.weightHistory=[];const d=new Date();S.weightHistory.push({v,d:d.getDate()+'/'+(d.getMonth()+1)});if(S.weightHistory.length>10)S.weightHistory.shift();document.getElementById('wInput').value='';persist();renderWeightChart();}
-function renderWeightChart(){const el=document.getElementById('weightChart');const ll=document.getElementById('weightLbls');if(!el)return;const hist=S.weightHistory||[];if(hist.length<2){el.innerHTML='<div style="color:var(--t3);font-size:12px;padding:6px;">Log weight to see chart.</div>';if(ll)ll.innerHTML='';return;}const vals=hist.map(h=>h.v);const mn=Math.min(...vals)-0.5,mx=Math.max(...vals)+0.5,range=mx-mn||1;el.innerHTML=hist.map(h=>{const pct=((h.v-mn)/range)*85+10;return`<div class="bcol"><div class="bar" style="height:${pct.toFixed(0)}%;background:var(--blue);"></div></div>`;}).join('');if(ll)ll.innerHTML=hist.map(h=>`<span class="blbl">${h.d}</span>`).join('');}
-function renderWeekChart(){const el=document.getElementById('weekChart');const ll=document.getElementById('weekLbls');if(!el)return;const labels=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];const hist=S.weekHistory||[];const data=labels.map((_,i)=>hist[hist.length-7+i]??0);const mx=Math.max(...data,1);el.innerHTML=data.map(v=>{const pct=Math.round((v/mx)*100);return`<div class="bcol"><div class="bar" style="height:${Math.max(pct,3)}%;background:var(--green);opacity:${v>0?1:0.2};"></div></div>`;}).join('');if(ll)ll.innerHTML=labels.map(d=>`<span class="blbl">${d}</span>`).join('');}
-function renderStreakDots(){const el=document.getElementById('streakDots');if(!el)return;const labels=['M','T','W','T','F','S','S'];const hist=S.streakHistory||[];el.innerHTML=labels.map((_,i)=>{const hit=hist[hist.length-7+i];return`<div class="sd${hit?' hit':' miss'}">${labels[i]}</div>`;}).join('');}
-function renderSavings(){const sv=S.savings||0;const goal=S.savingsGoal||30000;const pct=Math.min(100,Math.round((sv/goal)*100));const sn=document.getElementById('savNum');if(sn)sn.textContent='$'+sv.toLocaleString();const sf=document.getElementById('savFill');if(sf)sf.style.width=pct+'%';const sp=document.getElementById('savPct');if(sp)sp.textContent=pct+'%';const sgd=document.getElementById('savGoalDisplay');if(sgd)sgd.textContent='$'+goal.toLocaleString();}
-function updateSavings(){const v=parseFloat(document.getElementById('savInput').value);if(isNaN(v)||v<0)return;S.savings=v;document.getElementById('savInput').value='';persist();renderSavings();renderSavingsChart();sv('setSavings',v);}
-function renderSavingsChart(){const el=document.getElementById('savChart');if(!el)return;const goal=S.savingsGoal||30000;const current=S.savings||0;const targets=[1,4,7,10,13,16,19,22,25,28,30].map(n=>n*1000*(goal/30000));el.innerHTML=targets.map((t,i)=>{const actual=Math.min(current,t);const pct=Math.round((actual/goal)*100);const isActive=current<t&&(current>=(targets[i-1]||0));return`<div class="bcol"><div class="bar" style="height:${Math.max(pct,3)}%;background:${isActive?'var(--amber)':'var(--green)'};opacity:${actual>0?1:0.2};"></div></div>`;}).join('');}
-function renderDebt(){const d=S.debt||0;const dn=document.getElementById('debtNum');if(dn)dn.textContent='$'+Number(d).toLocaleString();const dc=document.getElementById('debtCard');if(dc)dc.style.borderColor=d<=0?'var(--green)':'var(--red)';}
-function updateFinance(){S.income=parseFloat(document.getElementById('setIncome').value)||9200;S.housing=parseFloat(document.getElementById('setHousing').value)||3390;S.living=parseFloat(document.getElementById('setLiving').value)||1500;S.savingsGoal=parseFloat(document.getElementById('setSavGoal').value)||30000;S.debt=parseFloat(document.getElementById('setDebt').value)||0;persist();renderFinanceBreakdown();renderSavings();renderSavingsChart();renderDebt();}
-function renderFinanceBreakdown(){const free=Math.max(0,(S.income||9200)-(S.housing||3390)-(S.living||1500));const fmt=v=>'$'+Math.round(v).toLocaleString();const id=document.getElementById('incomeDisplay');if(id)id.textContent=fmt(S.income||9200);const hd=document.getElementById('housingDisplay');if(hd)hd.textContent=fmt(S.housing||3390);const ld=document.getElementById('livingDisplay');if(ld)ld.textContent=fmt(S.living||1500);const fd=document.getElementById('freeDisplay');if(fd)fd.textContent=fmt(free);}
-function renderMilestones(){const el=document.getElementById('msList');if(!el)return;el.innerHTML=S.milestones.map(m=>`<div class="ms"><div class="msd ${m.status}"></div><div><div class="ms-t">${m.title}</div><div class="ms-d">${m.date}</div><span class="ms-b ${m.status}">${m.status==='now'?'Right now':m.status==='done'?'Done ✓':'Upcoming'}</span></div></div>`).join('');}
+
+function renderCoffee(){
+  const c=S.coffeeToday||0,lim=S.coffeeLimit||2;
+  ge('coffeeCount').textContent=c+' coffee'+(c!==1?'s':'');
+  const cups=ge('coffeeCups');
+  if(cups){let h='';for(let i=0;i<Math.max(c,lim);i++)h+=`<span class="coffee-cup${i<c?' on':''}">☕</span>`;cups.innerHTML=h;}
+}
+
+function renderFinance(){
+  const income=S.income||9200,housing=S.housing||3390,living=S.living||1500;
+  const free=Math.max(0,income-housing-living);
+  ge('finIncome').textContent=fmt(income);
+  ge('finFree').textContent=fmt(free);
+  ge('finDebt').textContent=fmt(S.debt||0);
+  // Month spend
+  const now=new Date();
+  const monthExp=S.expenses.filter(e=>{const d=new Date(e.date);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();});
+  const monthTotal=monthExp.reduce((a,b)=>a+b.amount,0);
+  ge('finSpentMonth').textContent=fmt(monthTotal);
+  // Savings
+  const sav=S.savings||0,goal=S.savingsGoal||30000;
+  const pct=Math.min(100,Math.round((sav/goal)*100));
+  ge('finSavNum').textContent=fmt(sav);
+  ge('finSavGoal').textContent=fmt(goal);
+  ge('finSavFill').style.width=pct+'%';
+  ge('finSavPct').textContent=pct+'%';
+  // ETA
+  const monthlyRate=free*0.7;
+  const remaining=goal-sav;
+  const months=monthlyRate>0?Math.ceil(remaining/monthlyRate):null;
+  ge('finSavETA').textContent=months?'~'+months+' months away':'Set income to calculate';
+  // Line chart
+  renderSavingsLineChart();
+  // Category breakdown
+  renderCatBreakdown();
+  // Expense list
+  renderExpenseList();
+  // Category select
+  const sel=ge('expCat');
+  if(sel){sel.innerHTML=S.categories.map(c=>`<option value="${c.id}">${c.emoji} ${c.name}</option>`).join('');}
+}
+
+function renderSavingsLineChart(){
+  const svg=ge('savingsLineChart');
+  if(!svg)return;
+  const sav=S.savings||0,goal=S.savingsGoal||30000;
+  const income=S.income||9200,housing=S.housing||3390,living=S.living||1500;
+  const monthlyRate=Math.max(0,(income-housing-living)*0.7);
+  const months=12;
+  const pts=[];
+  for(let i=0;i<=months;i++){pts.push(Math.min(goal,sav+monthlyRate*i));}
+  const maxV=goal;
+  const w=340,h=140,pad=20;
+  const x=i=>(pad+(i/months)*(w-pad*2));
+  const y=v=>(h-pad-((v/maxV)*(h-pad*2)));
+  let path=`M ${x(0)} ${y(pts[0])}`;
+  for(let i=1;i<=months;i++)path+=` L ${x(i)} ${y(pts[i])}`;
+  // Goal line
+  const gy=y(goal);
+  const goalX=pts.findIndex(p=>p>=goal);
+  svg.innerHTML=`
+    <defs>
+      <linearGradient id="lg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#00e676" stop-opacity=".3"/>
+        <stop offset="100%" stop-color="#00e676" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <line x1="${pad}" y1="${gy}" x2="${w-pad}" y2="${gy}" stroke="#333" stroke-width="1" stroke-dasharray="4,4"/>
+    <text x="${w-pad-2}" y="${gy-4}" fill="#555" font-size="9" text-anchor="end">${fmt(goal)}</text>
+    <path d="${path} L ${x(months)} ${h-pad} L ${x(0)} ${h-pad} Z" fill="url(#lg)"/>
+    <path d="${path}" fill="none" stroke="#00e676" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${x(0)}" cy="${y(pts[0])}" r="3" fill="#00e676"/>
+    ${goalX>0&&goalX<=months?`<circle cx="${x(goalX)}" cy="${y(goal)}" r="4" fill="#ffab00"/><text x="${x(goalX)}" y="${y(goal)-8}" fill="#ffab00" font-size="9" text-anchor="middle">Goal!</text>`:''}
+    <text x="${pad}" y="${h-4}" fill="#555" font-size="9">Now</text>
+    <text x="${w-pad}" y="${h-4}" fill="#555" font-size="9" text-anchor="end">12mo</text>
+  `;
+}
+
+function renderCatBreakdown(){
+  const el=ge('catBreakdown');if(!el)return;
+  const totals={};
+  S.expenses.forEach(e=>{totals[e.catId]=(totals[e.catId]||0)+e.amount;});
+  const maxV=Math.max(...Object.values(totals),1);
+  if(!Object.keys(totals).length){el.innerHTML='<div style="color:var(--t3);font-size:13px;padding:12px 0;">Log expenses to see breakdown.</div>';return;}
+  el.innerHTML=S.categories.filter(c=>totals[c.id]).sort((a,b)=>(totals[b.id]||0)-(totals[a.id]||0)).map(c=>`
+    <div class="cat-bar">
+      <div class="cat-name" style="color:var(--tx);">${c.emoji} ${c.name}</div>
+      <div class="cat-track"><div class="cat-fill" style="width:${Math.round((totals[c.id]||0)/maxV*100)}%;background:${c.color};"></div></div>
+      <div class="cat-amt">${fmt(totals[c.id]||0)}</div>
+    </div>`).join('');
+}
+
+function renderExpenseList(){
+  const el=ge('expenseList');if(!el)return;
+  if(!S.expenses.length){el.innerHTML='<div style="color:var(--t3);font-size:13px;padding:14px 16px;">No expenses logged yet.</div>';return;}
+  el.innerHTML=[...S.expenses].reverse().slice(0,20).map(e=>{
+    const cat=S.categories.find(c=>c.id===e.catId)||{emoji:'💸',name:'Other',color:'#666'};
+    const d=new Date(e.date);
+    return`<div class="exp-row">
+      <div class="exp-icon" style="background:${cat.color}22;">${cat.emoji}</div>
+      <div class="exp-info"><div class="exp-name">${e.name}</div><div class="exp-cat">${cat.name}</div></div>
+      <div style="text-align:right;"><div class="exp-amt">-${fmt(e.amount)}</div><div class="exp-date">${d.getDate()}/${d.getMonth()+1}</div></div>
+    </div>`;
+  }).join('');
+}
+
+function renderProgress(){
+  // Week bars
+  const wBars=ge('weekBars'),wLbls=ge('weekLabels');
+  if(wBars){
+    const hist=S.weekHistory||[];
+    const labels=['M','T','W','T','F','S','S'];
+    const data=labels.map((_,i)=>hist[hist.length-7+i]??0);
+    const mx=Math.max(...data,1);
+    wBars.innerHTML=data.map(v=>`<div class="bar-col"><div class="bar" style="height:${Math.max(Math.round((v/mx)*100),3)}%;background:var(--green);opacity:${v>0?1:0.15};"></div></div>`).join('');
+    if(wLbls)wLbls.innerHTML=labels.map(l=>`<span class="bar-lbl">${l}</span>`).join('');
+  }
+  // Habit streaks
+  const hsl=ge('habitStreakList');
+  if(hsl){hsl.innerHTML=S.habits.map(h=>`<div class="hs-row"><div class="hs-name">${h.name}</div><div class="hs-streak">${h.streak||0}${h.streak>0?' 🔥':''}</div></div>`).join('');}
+  // Trends
+  const wh=S.weightHistory||[];
+  if(wh.length){
+    ge('trendWeight').textContent=(wh[wh.length-1].v).toFixed(1);
+    if(wh.length>1){const d=wh[wh.length-1].v-wh[wh.length-2].v;const el=ge('trendWeightDelta');if(el){el.textContent=(d>0?'↑':'↓')+Math.abs(d).toFixed(1)+'kg';el.style.color=d<=0?'var(--green)':'var(--red)';}}
+  }
+  const ch=S.coffeeHistory||[];
+  if(ch.length){const avg=(ch.reduce((a,b)=>a+b,0)/ch.length).toFixed(1);ge('trendCoffee').textContent=avg;}
+  ge('trendStreak').textContent=S.bestStreak||S.streak||0;
+  // Mood history
+  const mtr=ge('moodTrendRow');
+  if(mtr){
+    const moodEmojis=['😞','😐','🙂','😄'];
+    const ch2=S.checkinHistory||[];
+    const last7=ch2.slice(-7);
+    mtr.innerHTML=last7.map(c=>`<div class="mood-day">${c.mood?moodEmojis[c.mood-1]:'—'}</div>`).join('');
+  }
+  // Weight bars
+  const wb=ge('weightBars'),wl=ge('weightLabels');
+  if(wb&&wh.length>1){
+    const vals=wh.map(h=>h.v);const mn=Math.min(...vals)-0.5,mx2=Math.max(...vals)+0.5,range=mx2-mn||1;
+    wb.innerHTML=wh.map(h=>`<div class="bar-col"><div class="bar" style="height:${Math.round(((h.v-mn)/range)*85+10)}%;background:var(--blue);"></div></div>`).join('');
+    if(wl)wl.innerHTML=wh.map(h=>`<span class="bar-lbl">${h.d}</span>`).join('');
+  }
+  // Coffee bars
+  const cb=ge('coffeeBars'),cbl=ge('coffeeBarLabels');
+  if(cb&&ch.length){
+    const mx3=Math.max(...ch,1);
+    cb.innerHTML=ch.map(v=>`<div class="bar-col"><div class="bar" style="height:${Math.round((v/mx3)*90+5)}%;background:var(--amber);"></div></div>`).join('');
+    if(cbl)cbl.innerHTML=ch.map((_,i)=>`<span class="bar-lbl">${i+1}</span>`).join('');
+  }
+  // Mind trend mood
+  const tm=ge('trendMood');
+  if(tm&&S.checkinHistory.length){
+    const moods=S.checkinHistory.filter(c=>c.mood).map(c=>c.mood);
+    if(moods.length){const avg=(moods.reduce((a,b)=>a+b,0)/moods.length);const moodEmojis=['😞','😐','🙂','😄'];tm.textContent=moodEmojis[Math.round(avg)-1]||'—';}}
+}
+
+function renderGoals(){
+  // Debt countdown
+  const income=S.income||9200,housing=S.housing||3390,living=S.living||1500;
+  const free=Math.max(0,income-housing-living);
+  const debt=S.debt||0;
+  const debtMonths=free>0?Math.ceil(debt/free):null;
+  const el=ge('goalsDebtFree');
+  if(el)el.textContent=debt<=0?'Debt free! 🎉':(debtMonths?'Debt-free in ~'+debtMonths+' months':'Set income to calculate');
+  // Milestones
+  const ml=ge('msList');
+  if(!ml)return;
+  const now=new Date();
+  ml.innerHTML=S.milestones.map(m=>{
+    let countdown='',progress=0;
+    if(m.target){
+      const target=new Date(m.target);
+      const diff=Math.ceil((target-now)/(1000*60*60*24));
+      countdown=diff>0?`<div class="ms-countdown" style="color:var(--amber);">${diff} days away</div>`:`<div class="ms-countdown" style="color:var(--green);">Passed — mark as done?</div>`;
+    }
+    return`<div class="ms-item">
+      <div><div class="ms-dot ${m.status}" style="margin-top:4px;"></div></div>
+      <div class="ms-content">
+        <div class="ms-title">${m.title}</div>
+        <div class="ms-date">${m.date}</div>
+        ${countdown}
+        <span class="ms-badge ${m.status}">${m.status==='now'?'Right now':m.status==='done'?'Done ✓':'Upcoming'}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderMind(){
+  const day=new Date().getDay()*7+new Date().getDate();
+  ge('gratPrompt').textContent=GRATITUDE_PROMPTS[day%GRATITUDE_PROMPTS.length];
+  ge('journalPrompt').textContent=JOURNAL_PROMPTS[day%JOURNAL_PROMPTS.length];
+  renderWins();
+  // Restore checkin state
+  const ci=S.checkin||{};
+  ['mood','energy','anxiety','focus'].forEach(group=>{
+    document.querySelectorAll(`[data-group="${group}"]`).forEach(el=>{
+      el.classList.toggle('selected',parseInt(el.dataset.val)===ci[group]);
+    });
+  });
+}
+
+function renderWins(){
+  const el=ge('winsList');if(!el)return;
+  if(!S.wins||!S.wins.length){el.innerHTML='<div style="color:var(--t3);font-size:13px;padding:8px 0;">Your wins will appear here.</div>';return;}
+  el.innerHTML=S.wins.slice(0,10).map(w=>`<div class="win-item"><div class="win-dot"></div><div class="win-text">${w.text}</div><div class="win-date">${w.date}</div></div>`).join('');
+}
+
+function renderCatSettings(){
+  const el=ge('catEditList');if(!el)return;
+  el.innerHTML=S.categories.map((c,i)=>`
+    <div class="cat-edit-row">
+      <span class="cat-emoji-btn">${c.emoji}</span>
+      <input class="cat-name-input" value="${c.name}" onchange="S.categories[${i}].name=this.value;persist();renderFinance();"/>
+      <button class="set-btn danger" onclick="deleteCat(${i})" style="padding:5px 9px;font-size:11px;">Del</button>
+    </div>`).join('');
+}
+
+// ===================== ACTIONS =====================
+function toggleHabit(id,e){
+  if(e&&(e.target.classList.contains('habit-del')||e.target.tagName==='BUTTON'))return;
+  S.checked[id]=!S.checked[id];
+  const el=ge('hc-'+id);if(el)el.classList.toggle('done',S.checked[id]);
+  persist();renderScore();renderDash();
+}
+
+function renderScore(){
+  const total=S.habits.length,done=Object.values(S.checked).filter(Boolean).length;
+  ge('todayDone').textContent=done;ge('todayTotal').textContent=total;
+  ge('todayRing').style.strokeDashoffset=175.9-(175.9*(total?done/total:0));
+}
+
+function delHabit(id,e){if(e)e.stopPropagation();S.habits=S.habits.filter(h=>h.id!==id);delete S.checked[id];persist();renderToday();}
+
+function addHabit(){
+  const name=ge('newHabitName').value.trim();const cat=ge('newHabitCat').value;
+  if(!name)return;
+  S.habits.push({id:'c'+Date.now(),name,sub:'',cat,core:false,streak:0});
+  ge('newHabitName').value='';persist();renderToday();
+  ge('addHabitCard').style.display='none';
+}
+
+function qAdd(name,cat){S.habits.push({id:'t'+Date.now(),name,sub:'',cat,core:false,streak:0});persist();renderToday();}
+
+function toggleAddHabit(){const el=ge('addHabitCard');el.style.display=el.style.display==='none'?'block':'none';}
+
+function addCoffee(){S.coffeeToday=(S.coffeeToday||0)+1;persist();renderCoffee();renderDash();}
+
+function lockDay(){
+  const total=S.habits.length,done=Object.values(S.checked).filter(Boolean).length;
+  // Week history
+  if(!S.weekHistory)S.weekHistory=[];
+  S.weekHistory.push(total?Math.round((done/total)*100):0);
+  if(S.weekHistory.length>28)S.weekHistory.shift();
+  // Coffee history
+  if(!S.coffeeHistory)S.coffeeHistory=[];
+  S.coffeeHistory.push(S.coffeeToday||0);
+  if(S.coffeeHistory.length>14)S.coffeeHistory.shift();
+  // Habit streaks
+  S.habits.forEach(h=>{
+    if(S.checked[h.id]){h.streak=(h.streak||0)+1;}
+    else{h.streak=0;}
+  });
+  // Overall streak
+  if(S.checked['n1']){
+    S.streak=(S.streak||0)+1;
+    S.bestStreak=Math.max(S.bestStreak||0,S.streak);
+    if(!S.streakHistory)S.streakHistory=[];
+    S.streakHistory.push(true);
+  }else{
+    S.streak=0;
+    if(!S.streakHistory)S.streakHistory=[];
+    S.streakHistory.push(false);
+  }
+  // Checkin history
+  if(!S.checkinHistory)S.checkinHistory=[];
+  S.checkinHistory.push({...S.checkin,date:new Date().toDateString()});
+  if(S.checkinHistory.length>30)S.checkinHistory.shift();
+  persist();
+  const btn=ge('lockBtn');
+  btn.textContent=done===total?'🔥 Perfect day!':'✓ Saved — '+done+'/'+total;
+  btn.style.background=done===total?'var(--amber)':'var(--green)';
+  setTimeout(()=>{btn.textContent='Lock in today ✓';btn.style.background='var(--green)';},3000);
+  renderDash();renderProgress();
+}
+
+function addExpense(){
+  const name=ge('expName').value.trim(),amt=parseFloat(ge('expAmt').value),catId=ge('expCat').value;
+  if(!name||isNaN(amt)||amt<=0)return;
+  if(!S.expenses)S.expenses=[];
+  S.expenses.push({id:'e'+Date.now(),name,amount:amt,catId,date:new Date().toISOString()});
+  ge('expName').value='';ge('expAmt').value='';
+  persist();renderFinance();
+  ge('expenseForm').style.display='none';
+}
+
+function toggleExpenseForm(){const el=ge('expenseForm');el.style.display=el.style.display==='none'?'block':'none';}
+
+function updateSavings(){
+  const v=parseFloat(ge('savUpdateInput').value);
+  if(isNaN(v)||v<0)return;
+  S.savings=v;ge('savUpdateInput').value='';
+  sv('setSavings',v);persist();renderFinance();renderDash();
+}
+
+function updateFinanceSettings(){
+  S.income=parseFloat(ge('setIncome').value)||9200;
+  S.housing=parseFloat(ge('setHousing').value)||3390;
+  S.living=parseFloat(ge('setLiving').value)||1500;
+  S.savingsGoal=parseFloat(ge('setSavGoal').value)||30000;
+  persist();renderFinance();renderDash();renderGoals();
+}
+
+function logWeight(){
+  const v=parseFloat(ge('weightInput').value);if(isNaN(v))return;
+  if(!S.weightHistory)S.weightHistory=[];
+  const d=new Date();
+  S.weightHistory.push({v,d:d.getDate()+'/'+(d.getMonth()+1)});
+  if(S.weightHistory.length>14)S.weightHistory.shift();
+  ge('weightInput').value='';persist();renderProgress();
+}
+
+function setCheckin(group,val,el){
+  S.checkin[group]=val;
+  document.querySelectorAll(`[data-group="${group}"]`).forEach(e=>e.classList.remove('selected'));
+  el.classList.add('selected');
+  persist();renderDash();
+}
+
+function addWin(){
+  const txt=ge('winInput').value.trim();if(!txt)return;
+  if(!S.wins)S.wins=[];
+  const d=new Date();
+  S.wins.unshift({text:txt,date:d.getDate()+'/'+(d.getMonth()+1)});
+  if(S.wins.length>50)S.wins.pop();
+  ge('winInput').value='';persist();renderWins();
+}
+
+function saveMind(){
+  persist();
+  const btn=document.querySelectorAll('.lock-btn')[1];
+  if(btn){btn.textContent='Saved ✓';setTimeout(()=>btn.textContent="Save today's mind entry ✓",2000);}
+}
+
 let msEditOpen=false;
-function toggleMsEdit(){msEditOpen=!msEditOpen;const el=document.getElementById('msEditSection');if(el)el.style.display=msEditOpen?'block':'none';if(msEditOpen)renderMsEdit();}
-function renderMsEdit(){const el=document.getElementById('msEditList');if(!el)return;el.innerHTML=S.milestones.map((m,i)=>`<div class="add-form" style="margin-bottom:8px;"><div class="f-row" style="margin-bottom:6px;"><input class="fi" value="${m.title}" onchange="editMs(${i},'title',this.value)" placeholder="Title"/><input class="fi" style="max-width:110px;" value="${m.date}" onchange="editMs(${i},'date',this.value)" placeholder="Date"/></div><div style="display:flex;gap:6px;align-items:center;"><select class="fs" onchange="editMs(${i},'status',this.value)"><option value="future"${m.status==='future'?' selected':''}>Upcoming</option><option value="now"${m.status==='now'?' selected':''}>Right now</option><option value="done"${m.status==='done'?' selected':''}>Done ✓</option></select><button class="set-btn danger" onclick="deleteMs(${i})" style="padding:6px 10px;font-size:11px;">Del</button></div></div>`).join('');}
-function editMs(i,k,v){S.milestones[i][k]=v;persist();renderMilestones();}
-function deleteMs(i){S.milestones.splice(i,1);persist();renderMilestones();renderMsEdit();}
-function addMilestone(){S.milestones.push({id:'ms'+Date.now(),title:'New milestone',date:'TBD',status:'future'});persist();renderMilestones();renderMsEdit();}
-function saveDay(){const total=S.habits.length;const done=Object.values(S.checked).filter(Boolean).length;if(!S.weekHistory)S.weekHistory=[];S.weekHistory.push(total?Math.round((done/total)*100):0);if(S.weekHistory.length>7)S.weekHistory.shift();if(!S.coffeeHistory)S.coffeeHistory=[];S.coffeeHistory.push(S.coffeeToday||0);if(S.coffeeHistory.length>7)S.coffeeHistory.shift();if(!S.streakHistory)S.streakHistory=[];if(S.checked['n1']){S.streak=(S.streak||0)+1;S.streakHistory.push(true);}else{S.streakHistory.push(false);}if(S.streakHistory.length>7)S.streakHistory.shift();S.coffeeToday=0;S.checked={};document.getElementById('streakNum').textContent=S.streak;document.getElementById('streakBig').textContent=S.streak;persist();renderHabits();renderWeekChart();renderStreakDots();renderCoffee();sv('setStreak',S.streak);const btn=document.getElementById('lockBtn');btn.textContent=done===total?'🔥 Perfect day!':'✓ Day saved — '+done+'/'+total;btn.style.background=done===total?'var(--amber)':'var(--green)';setTimeout(()=>{btn.textContent='Lock in today ✓';btn.style.background='var(--green)';},2500);}
-function saveJournal(){const win=document.getElementById('winInput').value.trim();if(win){if(!S.wins)S.wins=[];const d=new Date();S.wins.unshift({text:win,date:d.getDate()+'/'+(d.getMonth()+1)});if(S.wins.length>30)S.wins.pop();document.getElementById('winInput').value='';persist();renderWins();}const btns=document.querySelectorAll('.lbtn');const btn=btns[btns.length-1];if(btn){btn.textContent='Saved ✓';setTimeout(()=>btn.textContent='Save entry ✓',2000);}}
-function renderWins(){const el=document.getElementById('winsLog');if(!el)return;const wins=S.wins||[];if(!wins.length){el.innerHTML='<div style="color:var(--t3);font-size:13px;padding:12px 2px;">Your wins will appear here.</div>';return;}el.innerHTML=wins.map(w=>`<div class="wi"><div class="wd"></div><div class="wt">${w.text}</div><div class="wdate">${w.date}</div></div>`).join('');}
-function setMood(el){document.querySelectorAll('.mb').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
-function goNav(name,btn){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));const vEl=document.getElementById('view-'+name);if(vEl)vEl.classList.add('active');if(btn)btn.classList.add('active');window.scrollTo(0,0);}
-function exportData(){const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='reset-data.json';a.click();}
-function resetAll(){if(confirm('Reset all data? This cannot be undone.')){localStorage.removeItem('resetV3');location.reload();}}
-if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js');}
+function toggleMsEdit(){msEditOpen=!msEditOpen;const el=ge('msEditWrap');if(el)el.style.display=msEditOpen?'block':'none';if(msEditOpen)renderMsEdit();}
+
+function renderMsEdit(){
+  const el=ge('msEditList');if(!el)return;
+  el.innerHTML=S.milestones.map((m,i)=>`
+    <div class="ms-edit-wrap">
+      <div class="input-row" style="margin-bottom:6px;">
+        <input class="txt-input" value="${m.title}" onchange="S.milestones[${i}].title=this.value;persist();renderGoals();" placeholder="Title"/>
+        <input class="txt-input" style="max-width:120px;" value="${m.date}" onchange="S.milestones[${i}].date=this.value;persist();renderGoals();" placeholder="Date"/>
+      </div>
+      <div class="input-row">
+        <input class="txt-input" value="${m.target||''}" onchange="S.milestones[${i}].target=this.value;persist();renderGoals();" placeholder="Target date (YYYY-MM-DD)"/>
+        <select class="sel-input" onchange="S.milestones[${i}].status=this.value;persist();renderGoals();">
+          <option value="future"${m.status==='future'?' selected':''}>Upcoming</option>
+          <option value="now"${m.status==='now'?' selected':''}>Now</option>
+          <option value="done"${m.status==='done'?' selected':''}>Done ✓</option>
+        </select>
+        <button class="set-btn danger" onclick="deleteMs(${i})" style="padding:7px 10px;font-size:11px;">Del</button>
+      </div>
+    </div>`).join('');
+}
+
+function addMs(){S.milestones.push({id:'ms'+Date.now(),title:'New milestone',date:'TBD',status:'future',target:null});persist();renderGoals();renderMsEdit();}
+function deleteMs(i){S.milestones.splice(i,1);persist();renderGoals();renderMsEdit();}
+
+function addCat(){
+  S.categories.push({id:'cat'+Date.now(),emoji:'💸',name:'New category',color:'#888'});
+  persist();renderCatSettings();renderFinance();
+}
+function deleteCat(i){S.categories.splice(i,1);persist();renderCatSettings();renderFinance();}
+
+function goNav(name,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  const v=ge('view-'+name);if(v)v.classList.add('active');
+  if(btn)btn.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function exportData(){
+  const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='reset-backup.json';a.click();
+}
+
+function resetAll(){if(confirm('Reset all data? Cannot be undone.')){localStorage.removeItem('resetFinal');location.reload();}}
+
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}
 load();
 </script>
 </body>
