@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Reset."/>
+<meta name="theme-color" content="#0a0a0a"/>
+<link rel="manifest" href="/manifest.json"/>
+<link rel="apple-touch-icon" href="/icon-192.png"/>
+<title>Reset.</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+--bg:#0a0a0a;--s1:#141414;--s2:#1c1c1c;--s3:#242424;
+--b1:#2a2a2a;--b2:#363636;
+--tx:#f0f0f0;--t2:#aaa;--t3:#666;
+--green:#22c97a;--gd:#0a2318;
+--amber:#f5a623;--ad:#2d1f08;
+--blue:#4a9eff;--bd:#0a1e35;
+--red:#ff5555;--rd:#2a0a0a;
+--purple:#a78bfa;--pd:#1a1230;
+--safe-top:env(safe-area-inset-top);
+--safe-bot:env(safe-area-inset-bottom);
+}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;max-width:430px;margin:0 auto;padding:calc(14px + var(--safe-top)) 13px calc(90px + var(--safe-bot));font-size:15px;min-height:100vh;}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+.hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;}
+.hdr-title{font-size:28px;font-weight:700;letter-spacing:-1px;}
+.hdr-sub{font-size:11px;color:var(--t3);margin-top:3px;}
+.streak-pill{background:var(--ad);border:1px solid var(--amber);border-radius:13px;padding:7px 13px;text-align:center;}
+.streak-n{font-size:20px;font-weight:700;color:var(--amber);line-height:1;}
+.streak-l{font-size:9px;color:var(--amber);opacity:.7;margin-top:1px;text-transform:uppercase;letter-spacing:.05em;}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(8,8,8,.97);border-top:.5px solid var(--b1);display:flex;padding:6px 0 calc(10px + var(--safe-bot));z-index:100;backdrop-filter:blur(10px);}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:var(--t3);cursor:pointer;padding:4px 0;font-size:9px;text-transform:uppercase;letter-spacing:.04em;}
+.nb.active{color:var(--green);}
+.nb i{font-size:19px;}
+.view{display:none;}.view.active{display:block;}
+.sec{font-size:10px;font-weight:600;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin:18px 0 8px;}
+.sec:first-of-type{margin-top:0;}
+.card{background:var(--s1);border-radius:16px;overflow:hidden;margin-bottom:10px;}
+.cp{padding:15px;}
+.score-row{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+.score-big{font-size:42px;font-weight:700;letter-spacing:-1.5px;line-height:1;}
+.score-lbl{font-size:12px;color:var(--t2);margin-top:2px;}
+.int-box{background:var(--s1);border-radius:14px;padding:13px 15px;margin-bottom:10px;border-left:3px solid var(--purple);}
+.int-lbl{font-size:10px;color:var(--purple);margin-bottom:5px;text-transform:uppercase;letter-spacing:.08em;}
+.int-text{font-size:13px;line-height:1.6;color:var(--tx);font-style:italic;}
+.hr{display:flex;align-items:center;padding:12px 15px;border-bottom:.5px solid var(--b1);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .1s;}
+.hr:last-child{border-bottom:none;}
+.hr:active{background:var(--s2);}
+.hi{flex:1;}
+.hn{font-size:14px;}
+.hs{font-size:11px;color:var(--t3);margin-top:1px;}
+.hc{width:25px;height:25px;border-radius:50%;border:2px solid var(--b2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+.hc.done{background:var(--green);border-color:var(--green);}
+.chk{display:none;}
+.hc.done .chk{display:block;}
+.hdel{background:none;border:none;color:var(--t3);font-size:20px;cursor:pointer;padding:0 0 0 8px;line-height:1;flex-shrink:0;}
+.coffee-row{display:flex;align-items:center;gap:12px;background:var(--s1);border-radius:14px;padding:13px 15px;margin-bottom:10px;}
+.cups{display:flex;gap:5px;flex:1;flex-wrap:wrap;}
+.cup{font-size:20px;opacity:.25;transition:opacity .15s;}
+.cup.on{opacity:1;}
+.c-btn{background:var(--ad);border:1px solid var(--amber);color:var(--amber);border-radius:9px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.mc{background:var(--s1);border-radius:13px;padding:13px;}
+.mv{font-size:21px;font-weight:700;line-height:1;}
+.ml{font-size:11px;color:var(--t3);margin-top:3px;}
+.bc{display:flex;align-items:flex-end;gap:4px;height:80px;margin:6px 0 3px;}
+.bcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.bar{width:100%;border-radius:4px 4px 0 0;min-height:3px;transition:height .4s;}
+.blbl{font-size:9px;color:var(--t3);}
+.sdots{display:flex;gap:5px;margin:6px 0 8px;}
+.sd{flex:1;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--t3);}
+.sd.hit{background:var(--gd);border:1px solid var(--green);color:var(--green);}
+.sd.miss{background:var(--s2);}
+.sv-card{background:var(--s1);border-radius:16px;padding:15px;margin-bottom:10px;}
+.sv-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+.sv-num{font-size:28px;font-weight:700;color:var(--green);}
+.sv-goal{font-size:12px;color:var(--t3);}
+.pb{background:var(--s2);border-radius:99px;height:5px;margin-bottom:7px;}
+.pf{border-radius:99px;height:5px;background:var(--green);transition:width .5s;}
+.pm{display:flex;justify-content:space-between;font-size:11px;color:var(--t3);}
+.ms{display:flex;gap:13px;align-items:flex-start;padding:12px 0;border-bottom:.5px solid var(--b1);}
+.ms:last-child{border-bottom:none;}
+.msd{width:11px;height:11px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.msd.done{background:var(--green);}
+.msd.now{background:var(--amber);box-shadow:0 0 7px var(--amber);}
+.msd.future{background:var(--s3);}
+.ms-t{font-size:14px;font-weight:500;}
+.ms-d{font-size:11px;color:var(--t3);margin-top:2px;}
+.ms-b{display:inline-block;font-size:10px;padding:2px 7px;border-radius:5px;margin-top:3px;font-weight:500;}
+.ms-b.done{background:var(--gd);color:var(--green);}
+.ms-b.now{background:var(--ad);color:var(--amber);}
+.ms-b.future{background:var(--s2);color:var(--t3);}
+.jcard{background:var(--s1);border-radius:16px;padding:15px;margin-bottom:10px;}
+textarea{width:100%;background:none;border:none;color:var(--tx);font-size:14px;font-family:inherit;resize:none;outline:none;line-height:1.7;}
+textarea::placeholder{color:var(--t3);}
+.mood-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.mb{background:var(--s1);border:1px solid var(--b2);border-radius:9px;color:var(--tx);padding:7px 11px;font-size:12px;cursor:pointer;}
+.mb.active{border-color:var(--green);color:var(--green);}
+.wi{display:flex;gap:9px;align-items:flex-start;padding:9px 0;border-bottom:.5px solid var(--b1);}
+.wi:last-child{border-bottom:none;}
+.wd{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:5px;}
+.wt{flex:1;font-size:13px;line-height:1.5;}
+.wdate{font-size:10px;color:var(--t3);flex-shrink:0;margin-top:1px;}
+.set-group{background:var(--s1);border-radius:16px;overflow:hidden;margin-bottom:10px;}
+.set-row{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:.5px solid var(--b1);gap:10px;}
+.set-row:last-child{border-bottom:none;}
+.set-lbl{font-size:14px;}
+.set-sub{font-size:11px;color:var(--t3);margin-top:2px;}
+.set-input{background:var(--s2);border:1px solid var(--b2);border-radius:9px;padding:6px 10px;color:var(--tx);font-size:14px;text-align:right;width:130px;min-width:0;}
+.set-input:focus{outline:none;border-color:var(--green);}
+.set-btn{background:var(--s2);border:1px solid var(--b2);border-radius:9px;padding:6px 12px;color:var(--t2);font-size:12px;cursor:pointer;white-space:nowrap;}
+.set-btn.danger{border-color:var(--red);color:var(--red);}
+.add-form{background:var(--s1);border-radius:16px;padding:15px;margin-bottom:10px;}
+.f-row{display:flex;gap:7px;margin-bottom:8px;}
+.fi{flex:1;background:var(--s2);border:1px solid var(--b2);border-radius:10px;padding:10px 12px;color:var(--tx);font-size:13px;min-width:0;}
+.fi:focus{outline:none;border-color:var(--green);}
+.fs{background:var(--s2);border:1px solid var(--b2);border-radius:10px;padding:10px 8px;color:var(--tx);font-size:12px;}
+.fadd{background:var(--green);color:#000;border:none;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;}
+.tpls{display:flex;gap:5px;flex-wrap:wrap;}
+.tpl{background:var(--s2);border:1px solid var(--b1);border-radius:7px;color:var(--t2);padding:5px 9px;font-size:11px;cursor:pointer;}
+.w-row{display:flex;gap:8px;margin-bottom:10px;}
+.w-input{flex:1;background:var(--s1);border:1px solid var(--b2);border-radius:12px;padding:11px 13px;color:var(--tx);font-size:15px;font-weight:600;}
+.w-btn{background:var(--bd);border:1px solid var(--blue);color:var(--blue);border-radius:12px;padding:11px 15px;font-size:13px;font-weight:600;cursor:pointer;}
+.lbtn{width:100%;padding:15px;background:var(--green);color:#000;font-size:16px;font-weight:700;border:none;border-radius:14px;cursor:pointer;margin-top:18px;letter-spacing:-.2px;}
+.lbtn:active{transform:scale(.98);}
+.tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:5px;background:var(--s2);color:var(--t3);margin-left:6px;cursor:pointer;}
+</style>
+</head>
+<body>
+<h1 class="sr-only">Reset — Luke's daily life tracker</h1>
+
+<div class="hdr">
+  <div>
+    <div class="hdr-title">Reset.</div>
+    <div class="hdr-sub" id="appDate"></div>
+  </div>
+  <div class="streak-pill">
+    <div class="streak-n" id="streakNum">0</div>
+    <div class="streak-l">day streak</div>
+  </div>
+</div>
+
+<div class="view active" id="view-today">
+  <div class="int-box">
+    <div class="int-lbl">Today's intention <span class="tag" onclick="goNav('settings',document.querySelectorAll('.nb')[5])" style="color:var(--purple);">edit</span></div>
+    <div class="int-text" id="intentionDisplay"></div>
+  </div>
+  <div class="score-row">
+    <svg width="70" height="70" viewBox="0 0 70 70" style="transform:rotate(-90deg);flex-shrink:0;" role="img" aria-label="Daily progress ring">
+      <circle cx="35" cy="35" r="28" fill="none" stroke="#1c1c1c" stroke-width="7"/>
+      <circle id="ring" cx="35" cy="35" r="28" fill="none" stroke="#22c97a" stroke-width="7" stroke-linecap="round" stroke-dasharray="175.9" stroke-dashoffset="175.9" style="transition:stroke-dashoffset .4s;"/>
+    </svg>
+    <div style="flex:1;">
+      <div class="score-big" id="scoreBig">0</div>
+      <div class="score-lbl">of <span id="totalH">0</span> habits done</div>
+    </div>
+    <div style="text-align:right;">
+      <div class="c-btn" onclick="addCoffee()" style="margin-bottom:5px;">☕ +1</div>
+      <div style="font-size:11px;color:var(--t3);" id="coffeeHdr">0 today</div>
+    </div>
+  </div>
+  <div id="habitSections"></div>
+  <div class="sec">Add habit</div>
+  <div class="add-form">
+    <div class="f-row">
+      <input class="fi" id="hName" placeholder="Habit name..."/>
+      <select class="fs" id="hCat">
+        <option value="💰 Finance">💰</option>
+        <option value="💪 Health">💪</option>
+        <option value="🛠 Hustle">🛠</option>
+        <option value="✨ Self">✨</option>
+        <option value="🧠 Mind">🧠</option>
+        <option value="🎯 Custom">🎯</option>
+      </select>
+      <button class="fadd" onclick="addHabit()">+</button>
+    </div>
+    <div class="tpls">
+      <button class="tpl" onclick="qAdd('Read 10 pages','🧠 Mind')">📖 Read</button>
+      <button class="tpl" onclick="qAdd('Cold shower','💪 Health')">🚿 Cold shower</button>
+      <button class="tpl" onclick="qAdd('No alcohol','💪 Health')">🚫 No alcohol</button>
+      <button class="tpl" onclick="qAdd('Meditate 5 min','🧠 Mind')">🧘 Meditate</button>
+      <button class="tpl" onclick="qAdd('Call someone I care about','✨ Self')">📞 Connect</button>
+      <button class="tpl" onclick="qAdd('Plan tomorrow','💰 Finance')">📋 Plan</button>
+      <button class="tpl" onclick="qAdd('No social media before 9am','🧠 Mind')">📵 No scroll</button>
+    </div>
+  </div>
+  <button class="lbtn" id="lockBtn" onclick="saveDay()">Lock in today ✓</button>
+</div>
+
+<div class="view" id="view-progress">
+  <div class="sec">This week</div>
+  <div class="card cp">
+    <div style="font-size:12px;color:var(--t3);margin-bottom:6px;">Habit completion %</div>
+    <div class="bc" id="weekChart"></div>
+    <div style="display:flex;justify-content:space-between;" id="weekLbls"></div>
+  </div>
+  <div class="sec">No-gambling streak</div>
+  <div class="card cp">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">
+      <div style="font-size:30px;font-weight:700;color:var(--green);" id="streakBig">0</div>
+      <div style="font-size:12px;color:var(--t3);">days clean</div>
+    </div>
+    <div class="sdots" id="streakDots"></div>
+    <div style="font-size:11px;color:var(--t3);">Last 7 days — green = clean</div>
+  </div>
+  <div class="sec">Weight</div>
+  <div class="w-row">
+    <input class="w-input" id="wInput" type="number" step="0.1" placeholder="kg..."/>
+    <button class="w-btn" onclick="logWeight()">Log</button>
+  </div>
+  <div class="card cp">
+    <div style="font-size:12px;color:var(--t3);margin-bottom:6px;">Weight history</div>
+    <div class="bc" id="weightChart" style="height:70px;"></div>
+    <div style="display:flex;justify-content:space-between;" id="weightLbls"></div>
+  </div>
+  <div class="sec">Coffee</div>
+  <div class="mg">
+    <div class="mc"><div class="mv" style="color:var(--amber);" id="coffeeToday2">0</div><div class="ml">Today</div></div>
+    <div class="mc"><div class="mv" style="color:var(--amber);" id="coffeeAvg">—</div><div class="ml">7-day avg</div></div>
+  </div>
+  <div class="coffee-row">
+    <div class="cups" id="coffeeCups"></div>
+    <button class="c-btn" onclick="addCoffee()">+ Coffee</button>
+  </div>
+</div>
+
+<div class="view" id="view-finance">
+  <div class="sec">Debt</div>
+  <div class="card cp" id="debtCard" style="border:1px solid var(--red);">
+    <div style="font-size:12px;color:var(--t3);margin-bottom:5px;">Credit card — clears ~Aug 2026</div>
+    <div style="font-size:30px;font-weight:700;color:var(--red);" id="debtNum">$13,600</div>
+    <div style="font-size:11px;color:var(--t3);margin-top:3px;">July comms wipes most of it</div>
+  </div>
+  <div class="sec">Savings</div>
+  <div class="sv-card">
+    <div class="sv-top">
+      <div class="sv-num" id="savNum">$0</div>
+      <div class="sv-goal">/ <span id="savGoalDisplay">$30,000</span></div>
+    </div>
+    <div class="pb"><div class="pf" id="savFill" style="width:0%"></div></div>
+    <div class="pm"><span id="savPct">0%</span><span>Jun 2027</span></div>
+  </div>
+  <div class="f-row" style="margin-bottom:10px;">
+    <input class="fi" id="savInput" type="number" placeholder="Update savings ($)"/>
+    <button class="fadd" onclick="updateSavings()">Save</button>
+  </div>
+  <div class="sec">Projection</div>
+  <div class="card cp">
+    <div class="bc" id="savChart" style="height:90px;"></div>
+    <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--t3);margin-top:3px;">
+      <span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span>
+    </div>
+  </div>
+  <div class="sec">Breakdown</div>
+  <div class="mg">
+    <div class="mc"><div class="mv" style="color:var(--green);" id="incomeDisplay">$9,200</div><div class="ml">Net income</div></div>
+    <div class="mc"><div class="mv" style="color:var(--red);" id="housingDisplay">$3,390</div><div class="ml">Housing</div></div>
+    <div class="mc"><div class="mv" style="color:var(--amber);" id="livingDisplay">$1,500</div><div class="ml">Living</div></div>
+    <div class="mc"><div class="mv" style="color:var(--blue);" id="freeDisplay">$4,310</div><div class="ml">Free to save</div></div>
+  </div>
+</div>
+
+<div class="view" id="view-goals">
+  <div class="sec">Milestones <span class="tag" style="color:var(--blue);" onclick="toggleMsEdit()">edit</span></div>
+  <div class="card" style="padding:4px 15px;" id="msList"></div>
+  <div id="msEditSection" style="display:none;margin-top:10px;">
+    <div class="sec">Edit milestones</div>
+    <div id="msEditList"></div>
+    <button class="fadd" onclick="addMilestone()" style="padding:10px 16px;margin-bottom:10px;">+ Add milestone</button>
+  </div>
+</div>
+
+<div class="view" id="view-mind">
+  <div class="sec">One win today</div>
+  <div class="jcard"><textarea id="winInput" rows="2" placeholder="Something I did well today..."></textarea></div>
+  <div class="sec">How I'm feeling</div>
+  <div class="mood-row">
+    <button class="mb" onclick="setMood(this)">🔥 Locked in</button>
+    <button class="mb" onclick="setMood(this)">😐 Getting through</button>
+    <button class="mb" onclick="setMood(this)">😤 Struggled</button>
+    <button class="mb" onclick="setMood(this)">😮‍💨 Rough one</button>
+  </div>
+  <div class="sec">Journal</div>
+  <div class="jcard"><textarea id="journalInput" rows="6" placeholder="Dump it here. No one sees this but you..."></textarea></div>
+  <div class="sec">Win log</div>
+  <div class="card" style="padding:4px 15px;" id="winsLog"></div>
+  <button class="lbtn" onclick="saveJournal()">Save entry ✓</button>
+</div>
+
+<div class="view" id="view-settings">
+  <div class="sec">Profile</div>
+  <div class="set-group">
+    <div class="set-row"><div><div class="set-lbl">Name</div></div><input class="set-input" id="setName" placeholder="Luke" onchange="S.name=this.value;persist()"/></div>
+    <div class="set-row"><div><div class="set-lbl">Coffee limit / day</div></div><input class="set-input" id="setCoffeeLimit" type="number" onchange="S.coffeeLimit=parseInt(this.value);persist()"/></div>
+  </div>
+  <div class="sec">Finance</div>
+  <div class="set-group">
+    <div class="set-row"><div><div class="set-lbl">Monthly net income</div><div class="set-sub">After tax take-home</div></div><input class="set-input" id="setIncome" type="number" onchange="updateFinance()"/></div>
+    <div class="set-row"><div><div class="set-lbl">Housing (your share)</div></div><input class="set-input" id="setHousing" type="number" onchange="updateFinance()"/></div>
+    <div class="set-row"><div><div class="set-lbl">Living costs</div></div><input class="set-input" id="setLiving" type="number" onchange="updateFinance()"/></div>
+    <div class="set-row"><div><div class="set-lbl">Savings goal</div></div><input class="set-input" id="setSavGoal" type="number" onchange="updateFinance()"/></div>
+    <div class="set-row"><div><div class="set-lbl">Current debt</div></div><input class="set-input" id="setDebt" type="number" onchange="S.debt=parseFloat(this.value);persist();renderDebt()"/></div>
+    <div class="set-row"><div><div class="set-lbl">Current savings</div></div><input class="set-input" id="setSavings" type="number" onchange="S.savings=parseFloat(this.value);persist();renderSavings();renderSavingsChart()"/></div>
+  </div>
+  <div class="sec">Daily intention</div>
+  <div class="set-group">
+    <div class="set-row" style="flex-direction:column;align-items:flex-start;gap:8px;">
+      <div class="set-lbl">Your intention</div>
+      <textarea id="setIntention" rows="3" style="width:100%;background:var(--s2);border:1px solid var(--b2);border-radius:9px;padding:9px 11px;color:var(--tx);font-size:13px;resize:none;outline:none;line-height:1.6;" placeholder="Write your daily intention..." onchange="S.intention=this.value;S.rotateIntention=false;persist();renderIntention()"></textarea>
+    </div>
+    <div class="set-row"><div><div class="set-lbl">Rotate built-in prompts</div><div class="set-sub">Changes daily automatically</div></div><button class="set-btn" id="rotateBtn" onclick="S.rotateIntention=!S.rotateIntention;this.textContent=S.rotateIntention?'On':'Off';persist();renderIntention()">On</button></div>
+  </div>
+  <div class="sec">Habits</div>
+  <div class="set-group" id="habitEditList"></div>
+  <div class="sec">Streak</div>
+  <div class="set-group">
+    <div class="set-row"><div><div class="set-lbl">No-gambling streak</div><div class="set-sub">Edit if needed</div></div><input class="set-input" id="setStreak" type="number" onchange="S.streak=parseInt(this.value);persist();document.getElementById('streakNum').textContent=S.streak;document.getElementById('streakBig').textContent=S.streak;"/></div>
+  </div>
+  <div class="sec">Data</div>
+  <div class="set-group">
+    <div class="set-row"><div><div class="set-lbl">Export data</div><div class="set-sub">Download as JSON backup</div></div><button class="set-btn" onclick="exportData()">Export</button></div>
+    <div class="set-row"><div><div class="set-lbl">Reset everything</div><div class="set-sub">Cannot be undone</div></div><button class="set-btn danger" onclick="resetAll()">Reset</button></div>
+  </div>
+</div>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <button class="nb active" onclick="goNav('today',this)"><i class="ti ti-home" aria-hidden="true"></i>Today</button>
+  <button class="nb" onclick="goNav('progress',this)"><i class="ti ti-chart-bar" aria-hidden="true"></i>Progress</button>
+  <button class="nb" onclick="goNav('finance',this)"><i class="ti ti-coin" aria-hidden="true"></i>Finance</button>
+  <button class="nb" onclick="goNav('goals',this)"><i class="ti ti-trophy" aria-hidden="true"></i>Goals</button>
+  <button class="nb" onclick="goNav('mind',this)"><i class="ti ti-brain" aria-hidden="true"></i>Mind</button>
+  <button class="nb" onclick="goNav('settings',this)"><i class="ti ti-settings" aria-hidden="true"></i>Settings</button>
+</nav>
+
+<script>
+const INTENTIONS=["Today I build the person I'm becoming, one small action at a time.","I don't need motivation. I need discipline. Starting now.","Every day clean is proof I'm stronger than I thought.","Small consistent actions compound into a life I'm proud of.","I show up for myself today because future me is counting on it.","Debt is temporary. Identity is built daily.","I am not my worst moments. I am what I do next.","Today: no gambling, real food, move my body. That's enough.","The streak continues because I choose it to.","One year from now I'll be glad I started today."];
+const DEFAULT_HABITS=[{id:'f1',name:'Check my budget',sub:'Know where every dollar is',cat:'💰 Finance',core:true},{id:'f2',name:'No unnecessary spend',sub:'Needs only',cat:'💰 Finance',core:true},{id:'h1',name:'Move my body',sub:'Walk, gym, 20+ min',cat:'💪 Health',core:true},{id:'h2',name:'Eat real food',sub:'Veg, protein, less processed',cat:'💪 Health',core:true},{id:'h3',name:'Max 2 coffees',sub:'Swap the rest for water',cat:'💪 Health',core:true},{id:'n1',name:'No gambling today',sub:'Tick this every single day',cat:'🚫 Non-neg',core:true,highlight:true},{id:'s1',name:'30 min on the app',sub:'Design, code, or plan',cat:'🛠 Hustle',core:true},{id:'s2',name:'One work win',sub:'Move something forward',cat:'🛠 Hustle',core:true},{id:'se1',name:'Groomed and presentable',sub:'Show up for yourself',cat:'✨ Self',core:true},{id:'se2',name:'In bed by midnight',sub:'Sleep is recovery',cat:'✨ Self',core:true},{id:'m1',name:'10 min no screens',sub:'Morning or night',cat:'🧠 Mind',core:true}];
+const DEFAULT_MILESTONES=[{id:'ms1',title:'July comms lands',date:'Mid July 2026',status:'now'},{id:'ms2',title:'Credit card cleared',date:'August 2026',status:'future'},{id:'ms3',title:'First $10k saved',date:'November 2026',status:'future'},{id:'ms4',title:'App MVP live',date:'Feb 2027',status:'future'},{id:'ms5',title:'Thailand — teeth done',date:'Early 2027',status:'future'},{id:'ms6',title:'$30k savings',date:'June 2027',status:'future'},{id:'ms7',title:'Baby prep funded',date:'Mid 2027',status:'future'},{id:'ms8',title:'Germany + Shaolin Temple',date:'Long term',status:'future'}];
+let S={habits:[...DEFAULT_HABITS],milestones:[...DEFAULT_MILESTONES],checked:{},streak:0,streakHistory:[],savings:0,savingsGoal:30000,debt:13600,income:9200,housing:3390,living:1500,coffeeToday:0,coffeeHistory:[],weightHistory:[],weekHistory:[],wins:[],intention:'',rotateIntention:true,name:'Luke',coffeeLimit:2};
+function load(){try{const d=localStorage.getItem('resetV3');if(d)S={...S,...JSON.parse(d)};}catch(e){}initUI();render();}
+function persist(){try{localStorage.setItem('resetV3',JSON.stringify(S));}catch(e){}}
+function sv(id,v){const el=document.getElementById(id);if(el)el.value=v;}
+function initUI(){
+  const now=new Date();const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('appDate').textContent=days[now.getDay()]+', '+now.getDate()+' '+months[now.getMonth()];
+  sv('setName',S.name||'Luke');sv('setCoffeeLimit',S.coffeeLimit||2);sv('setIncome',S.income||9200);sv('setHousing',S.housing||3390);sv('setLiving',S.living||1500);sv('setSavGoal',S.savingsGoal||30000);sv('setDebt',S.debt||13600);sv('setSavings',S.savings||0);sv('setStreak',S.streak||0);sv('setIntention',S.intention||'');
+  const rb=document.getElementById('rotateBtn');if(rb)rb.textContent=S.rotateIntention?'On':'Off';
+}
+function render(){document.getElementById('streakNum').textContent=S.streak;document.getElementById('streakBig').textContent=S.streak;renderIntention();renderHabits();renderScore();renderWeekChart();renderStreakDots();renderWeightChart();renderCoffee();renderSavings();renderSavingsChart();renderDebt();renderFinanceBreakdown();renderMilestones();renderHabitSettings();renderWins();}
+function renderIntention(){const el=document.getElementById('intentionDisplay');if(!el)return;el.textContent=(S.rotateIntention||!S.intention)?INTENTIONS[new Date().getDay()%INTENTIONS.length]:S.intention;}
+function renderHabits(){
+  const cats={};S.habits.forEach(h=>{if(!cats[h.cat])cats[h.cat]=[];cats[h.cat].push(h);});
+  let html='';
+  Object.entries(cats).forEach(([cat,habits])=>{
+    html+=`<div class="sec">${cat}</div><div class="card">`;
+    habits.forEach(h=>{const done=S.checked[h.id];const ns=h.highlight?'color:var(--green);font-weight:600;':'';html+=`<div class="hr" onclick="toggleH('${h.id}',event)"><div class="hi"><div class="hn" style="${ns}">${h.name}</div>${h.sub?`<div class="hs">${h.sub}</div>`:''}</div>${!h.core?`<button class="hdel" onclick="delH('${h.id}',event)">×</button>`:''}<div class="hc${done?' done':''}" id="hc-${h.id}"><svg class="chk" width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>`;});
+    html+='</div>';
+  });
+  document.getElementById('habitSections').innerHTML=html;renderScore();
+}
+function renderHabitSettings(){const el=document.getElementById('habitEditList');if(!el)return;el.innerHTML=S.habits.map(h=>`<div class="set-row" style="flex-wrap:wrap;gap:6px;"><input style="flex:1;min-width:120px;background:var(--s2);border:1px solid var(--b2);border-radius:8px;padding:6px 9px;color:var(--tx);font-size:13px;" value="${h.name}" onchange="editHN('${h.id}',this.value)"/><input style="width:100px;background:var(--s2);border:1px solid var(--b2);border-radius:8px;padding:6px 9px;color:var(--t2);font-size:11px;" value="${h.sub||''}" placeholder="subtitle" onchange="editHS('${h.id}',this.value)"/>${!h.core?`<button class="set-btn danger" onclick="delH('${h.id}',event)" style="padding:6px 10px;font-size:11px;">Del</button>`:'<span style="font-size:10px;color:var(--t3);padding:6px 4px;">core</span>'}</div>`).join('');}
+function editHN(id,v){const h=S.habits.find(x=>x.id===id);if(h){h.name=v;persist();renderHabits();}}
+function editHS(id,v){const h=S.habits.find(x=>x.id===id);if(h){h.sub=v;persist();renderHabits();}}
+function toggleH(id,e){if(e&&(e.target.classList.contains('hdel')||e.target.tagName==='BUTTON'))return;S.checked[id]=!S.checked[id];const el=document.getElementById('hc-'+id);if(el)el.classList.toggle('done',S.checked[id]);persist();renderScore();}
+function delH(id,e){if(e)e.stopPropagation();S.habits=S.habits.filter(h=>h.id!==id);delete S.checked[id];persist();renderHabits();renderHabitSettings();}
+function renderScore(){const total=S.habits.length;const done=Object.values(S.checked).filter(Boolean).length;const pct=total?done/total:0;const ring=document.getElementById('ring');if(ring)ring.style.strokeDashoffset=175.9-(175.9*pct);const sb=document.getElementById('scoreBig');if(sb)sb.textContent=done;const th=document.getElementById('totalH');if(th)th.textContent=total;}
+function addHabit(){const name=document.getElementById('hName').value.trim();const cat=document.getElementById('hCat').value;if(!name)return;S.habits.push({id:'c'+Date.now(),name,sub:'',cat,core:false});document.getElementById('hName').value='';persist();renderHabits();renderHabitSettings();}
+function qAdd(name,cat){S.habits.push({id:'t'+Date.now(),name,sub:'',cat,core:false});persist();renderHabits();renderHabitSettings();}
+function addCoffee(){S.coffeeToday=(S.coffeeToday||0)+1;persist();renderCoffee();}
+function renderCoffee(){const c=S.coffeeToday||0;const lim=S.coffeeLimit||2;const hdr=document.getElementById('coffeeHdr');if(hdr)hdr.textContent=c+' today';const ct2=document.getElementById('coffeeToday2');if(ct2)ct2.textContent=c;const cups=document.getElementById('coffeeCups');if(cups){let h='';for(let i=0;i<Math.max(c,lim);i++)h+=`<span class="cup${i<c?' on':''}">☕</span>`;cups.innerHTML=h;}const hist=S.coffeeHistory||[];const avg=hist.length?(Math.round(hist.reduce((a,b)=>a+b,0)/hist.length*10)/10).toFixed(1):'—';const ca=document.getElementById('coffeeAvg');if(ca)ca.textContent=avg;}
+function logWeight(){const v=parseFloat(document.getElementById('wInput').value);if(isNaN(v))return;if(!S.weightHistory)S.weightHistory=[];const d=new Date();S.weightHistory.push({v,d:d.getDate()+'/'+(d.getMonth()+1)});if(S.weightHistory.length>10)S.weightHistory.shift();document.getElementById('wInput').value='';persist();renderWeightChart();}
+function renderWeightChart(){const el=document.getElementById('weightChart');const ll=document.getElementById('weightLbls');if(!el)return;const hist=S.weightHistory||[];if(hist.length<2){el.innerHTML='<div style="color:var(--t3);font-size:12px;padding:6px;">Log weight to see chart.</div>';if(ll)ll.innerHTML='';return;}const vals=hist.map(h=>h.v);const mn=Math.min(...vals)-0.5,mx=Math.max(...vals)+0.5,range=mx-mn||1;el.innerHTML=hist.map(h=>{const pct=((h.v-mn)/range)*85+10;return`<div class="bcol"><div class="bar" style="height:${pct.toFixed(0)}%;background:var(--blue);"></div></div>`;}).join('');if(ll)ll.innerHTML=hist.map(h=>`<span class="blbl">${h.d}</span>`).join('');}
+function renderWeekChart(){const el=document.getElementById('weekChart');const ll=document.getElementById('weekLbls');if(!el)return;const labels=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];const hist=S.weekHistory||[];const data=labels.map((_,i)=>hist[hist.length-7+i]??0);const mx=Math.max(...data,1);el.innerHTML=data.map(v=>{const pct=Math.round((v/mx)*100);return`<div class="bcol"><div class="bar" style="height:${Math.max(pct,3)}%;background:var(--green);opacity:${v>0?1:0.2};"></div></div>`;}).join('');if(ll)ll.innerHTML=labels.map(d=>`<span class="blbl">${d}</span>`).join('');}
+function renderStreakDots(){const el=document.getElementById('streakDots');if(!el)return;const labels=['M','T','W','T','F','S','S'];const hist=S.streakHistory||[];el.innerHTML=labels.map((_,i)=>{const hit=hist[hist.length-7+i];return`<div class="sd${hit?' hit':' miss'}">${labels[i]}</div>`;}).join('');}
+function renderSavings(){const sv=S.savings||0;const goal=S.savingsGoal||30000;const pct=Math.min(100,Math.round((sv/goal)*100));const sn=document.getElementById('savNum');if(sn)sn.textContent='$'+sv.toLocaleString();const sf=document.getElementById('savFill');if(sf)sf.style.width=pct+'%';const sp=document.getElementById('savPct');if(sp)sp.textContent=pct+'%';const sgd=document.getElementById('savGoalDisplay');if(sgd)sgd.textContent='$'+goal.toLocaleString();}
+function updateSavings(){const v=parseFloat(document.getElementById('savInput').value);if(isNaN(v)||v<0)return;S.savings=v;document.getElementById('savInput').value='';persist();renderSavings();renderSavingsChart();sv('setSavings',v);}
+function renderSavingsChart(){const el=document.getElementById('savChart');if(!el)return;const goal=S.savingsGoal||30000;const current=S.savings||0;const targets=[1,4,7,10,13,16,19,22,25,28,30].map(n=>n*1000*(goal/30000));el.innerHTML=targets.map((t,i)=>{const actual=Math.min(current,t);const pct=Math.round((actual/goal)*100);const isActive=current<t&&(current>=(targets[i-1]||0));return`<div class="bcol"><div class="bar" style="height:${Math.max(pct,3)}%;background:${isActive?'var(--amber)':'var(--green)'};opacity:${actual>0?1:0.2};"></div></div>`;}).join('');}
+function renderDebt(){const d=S.debt||0;const dn=document.getElementById('debtNum');if(dn)dn.textContent='$'+Number(d).toLocaleString();const dc=document.getElementById('debtCard');if(dc)dc.style.borderColor=d<=0?'var(--green)':'var(--red)';}
+function updateFinance(){S.income=parseFloat(document.getElementById('setIncome').value)||9200;S.housing=parseFloat(document.getElementById('setHousing').value)||3390;S.living=parseFloat(document.getElementById('setLiving').value)||1500;S.savingsGoal=parseFloat(document.getElementById('setSavGoal').value)||30000;S.debt=parseFloat(document.getElementById('setDebt').value)||0;persist();renderFinanceBreakdown();renderSavings();renderSavingsChart();renderDebt();}
+function renderFinanceBreakdown(){const free=Math.max(0,(S.income||9200)-(S.housing||3390)-(S.living||1500));const fmt=v=>'$'+Math.round(v).toLocaleString();const id=document.getElementById('incomeDisplay');if(id)id.textContent=fmt(S.income||9200);const hd=document.getElementById('housingDisplay');if(hd)hd.textContent=fmt(S.housing||3390);const ld=document.getElementById('livingDisplay');if(ld)ld.textContent=fmt(S.living||1500);const fd=document.getElementById('freeDisplay');if(fd)fd.textContent=fmt(free);}
+function renderMilestones(){const el=document.getElementById('msList');if(!el)return;el.innerHTML=S.milestones.map(m=>`<div class="ms"><div class="msd ${m.status}"></div><div><div class="ms-t">${m.title}</div><div class="ms-d">${m.date}</div><span class="ms-b ${m.status}">${m.status==='now'?'Right now':m.status==='done'?'Done ✓':'Upcoming'}</span></div></div>`).join('');}
+let msEditOpen=false;
+function toggleMsEdit(){msEditOpen=!msEditOpen;const el=document.getElementById('msEditSection');if(el)el.style.display=msEditOpen?'block':'none';if(msEditOpen)renderMsEdit();}
+function renderMsEdit(){const el=document.getElementById('msEditList');if(!el)return;el.innerHTML=S.milestones.map((m,i)=>`<div class="add-form" style="margin-bottom:8px;"><div class="f-row" style="margin-bottom:6px;"><input class="fi" value="${m.title}" onchange="editMs(${i},'title',this.value)" placeholder="Title"/><input class="fi" style="max-width:110px;" value="${m.date}" onchange="editMs(${i},'date',this.value)" placeholder="Date"/></div><div style="display:flex;gap:6px;align-items:center;"><select class="fs" onchange="editMs(${i},'status',this.value)"><option value="future"${m.status==='future'?' selected':''}>Upcoming</option><option value="now"${m.status==='now'?' selected':''}>Right now</option><option value="done"${m.status==='done'?' selected':''}>Done ✓</option></select><button class="set-btn danger" onclick="deleteMs(${i})" style="padding:6px 10px;font-size:11px;">Del</button></div></div>`).join('');}
+function editMs(i,k,v){S.milestones[i][k]=v;persist();renderMilestones();}
+function deleteMs(i){S.milestones.splice(i,1);persist();renderMilestones();renderMsEdit();}
+function addMilestone(){S.milestones.push({id:'ms'+Date.now(),title:'New milestone',date:'TBD',status:'future'});persist();renderMilestones();renderMsEdit();}
+function saveDay(){const total=S.habits.length;const done=Object.values(S.checked).filter(Boolean).length;if(!S.weekHistory)S.weekHistory=[];S.weekHistory.push(total?Math.round((done/total)*100):0);if(S.weekHistory.length>7)S.weekHistory.shift();if(!S.coffeeHistory)S.coffeeHistory=[];S.coffeeHistory.push(S.coffeeToday||0);if(S.coffeeHistory.length>7)S.coffeeHistory.shift();if(!S.streakHistory)S.streakHistory=[];if(S.checked['n1']){S.streak=(S.streak||0)+1;S.streakHistory.push(true);}else{S.streakHistory.push(false);}if(S.streakHistory.length>7)S.streakHistory.shift();S.coffeeToday=0;S.checked={};document.getElementById('streakNum').textContent=S.streak;document.getElementById('streakBig').textContent=S.streak;persist();renderHabits();renderWeekChart();renderStreakDots();renderCoffee();sv('setStreak',S.streak);const btn=document.getElementById('lockBtn');btn.textContent=done===total?'🔥 Perfect day!':'✓ Day saved — '+done+'/'+total;btn.style.background=done===total?'var(--amber)':'var(--green)';setTimeout(()=>{btn.textContent='Lock in today ✓';btn.style.background='var(--green)';},2500);}
+function saveJournal(){const win=document.getElementById('winInput').value.trim();if(win){if(!S.wins)S.wins=[];const d=new Date();S.wins.unshift({text:win,date:d.getDate()+'/'+(d.getMonth()+1)});if(S.wins.length>30)S.wins.pop();document.getElementById('winInput').value='';persist();renderWins();}const btns=document.querySelectorAll('.lbtn');const btn=btns[btns.length-1];if(btn){btn.textContent='Saved ✓';setTimeout(()=>btn.textContent='Save entry ✓',2000);}}
+function renderWins(){const el=document.getElementById('winsLog');if(!el)return;const wins=S.wins||[];if(!wins.length){el.innerHTML='<div style="color:var(--t3);font-size:13px;padding:12px 2px;">Your wins will appear here.</div>';return;}el.innerHTML=wins.map(w=>`<div class="wi"><div class="wd"></div><div class="wt">${w.text}</div><div class="wdate">${w.date}</div></div>`).join('');}
+function setMood(el){document.querySelectorAll('.mb').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+function goNav(name,btn){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));const vEl=document.getElementById('view-'+name);if(vEl)vEl.classList.add('active');if(btn)btn.classList.add('active');window.scrollTo(0,0);}
+function exportData(){const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='reset-data.json';a.click();}
+function resetAll(){if(confirm('Reset all data? This cannot be undone.')){localStorage.removeItem('resetV3');location.reload();}}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js');}
+load();
+</script>
+</body>
+</html>
